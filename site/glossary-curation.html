@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary Curation Tool (Admin)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 1rem;
+        }
+        h1 { color: #4ecdc4; margin-bottom: 0.5rem; }
+        .subtitle { color: #888; margin-bottom: 1.5rem; }
+
+        .controls {
+            background: #252540;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .controls label { color: #aaa; }
+        .controls select, .controls input {
+            background: #1a1a2e;
+            border: 1px solid #444;
+            color: #eee;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        button {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #3db8b0; }
+        button.secondary {
+            background: #666;
+            color: #eee;
+        }
+
+        .stats {
+            background: #252540;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 2rem;
+        }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5rem; color: #4ecdc4; font-weight: bold; }
+        .stat-label { font-size: 0.8rem; color: #888; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #252540;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+        th {
+            background: #1a1a2e;
+            padding: 0.75rem;
+            text-align: left;
+            color: #4ecdc4;
+            position: sticky;
+            top: 0;
+        }
+        td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #333;
+            vertical-align: top;
+        }
+        tr:hover { background: #2a2a4a; }
+
+        .term { font-weight: bold; color: #fff; }
+        .source { font-size: 0.75rem; color: #888; }
+        .examples-toggle {
+            font-size: 0.7rem;
+            color: #4ecdc4;
+            cursor: pointer;
+            margin-top: 0.25rem;
+        }
+        .examples-toggle:hover { text-decoration: underline; }
+        .examples-list {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #1a1a2e;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        .examples-list.show { display: block; }
+        .example-item {
+            margin-bottom: 0.3rem;
+            font-family: monospace;
+        }
+        .example-file { color: #4ecdc4; }
+        .example-line { color: #ffa500; }
+        .example-snippet { color: #aaa; }
+        .conflict { color: #ff6b6b; font-weight: bold; }
+        .no-conflict { color: #6bff6b; }
+
+        .category-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            background: #444;
+            color: #ddd;
+        }
+
+        select.decision {
+            width: 100%;
+            background: #1a1a2e;
+            border: 1px solid #444;
+            color: #eee;
+            padding: 0.3rem;
+            border-radius: 4px;
+        }
+        select.decision.include-yes { border-color: #4ecdc4; background: #1a3a38; }
+        select.decision.include-no { border-color: #666; }
+        select.decision.include-later { border-color: #ffa500; background: #3a3020; }
+
+        input.final-term {
+            width: 100%;
+            background: #1a1a2e;
+            border: 1px solid #444;
+            color: #eee;
+            padding: 0.3rem;
+            border-radius: 4px;
+        }
+
+        .filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid #444;
+            background: transparent;
+            color: #aaa;
+        }
+        .filter-btn.active {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            border-color: #4ecdc4;
+        }
+
+        .actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #252540;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            border-top: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Glossary Curation Tool</h1>
+    <p class="subtitle">Admin tool for deciding which terms go into the translation glossary</p>
+
+    <div class="controls">
+        <div>
+            <label>Filter: </label>
+            <div class="filter-row">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="optimizer">Optimizer Only</button>
+                <button class="filter-btn" data-filter="website">Website Terms</button>
+                <button class="filter-btn" data-filter="code">Code Terms</button>
+                <button class="filter-btn" data-filter="conflict">Conflicts</button>
+                <button class="filter-btn" data-filter="undecided">Undecided</button>
+            </div>
+        </div>
+        <div>
+            <label>Category: </label>
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+            </select>
+        </div>
+        <div>
+            <label>Search: </label>
+            <input type="text" id="search" placeholder="Search terms...">
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value" id="total-terms">0</div>
+            <div class="stat-label">Total Terms</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="optimizer-only">0</div>
+            <div class="stat-label">Optimizer Scope</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="included-v1">0</div>
+            <div class="stat-label">Include v1</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="later">0</div>
+            <div class="stat-label">Later</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="conflicts">0</div>
+            <div class="stat-label">Conflicts</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="undecided">0</div>
+            <div class="stat-label">Undecided</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="excluded">0</div>
+            <div class="stat-label">Excluded</div>
+        </div>
+    </div>
+
+    <table id="terms-table">
+        <thead>
+            <tr>
+                <th style="width: 20%">Term (Website)</th>
+                <th style="width: 25%">Term (Code/Found)</th>
+                <th style="width: 10%">Category</th>
+                <th style="width: 10%">Conflict?</th>
+                <th style="width: 20%">Final Term</th>
+                <th style="width: 10%">Include v1?</th>
+                <th style="width: 10%">Notes</th>
+            </tr>
+        </thead>
+        <tbody id="terms-body">
+        </tbody>
+    </table>
+
+    <div class="actions">
+        <button onclick="saveDecisions()">Save Decisions</button>
+        <button class="secondary" onclick="exportGlossary()">Export v1 Glossary</button>
+        <button class="secondary" onclick="loadSaved()">Load Saved</button>
+    </div>
+
+    <script>
+    // Terms data will be populated here
+    const termsData = [];
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function toggleExamples(idx) {
+        const el = document.getElementById(`examples-${idx}`);
+        if (el) {
+            el.classList.toggle('show');
+        }
+    }
+
+    // Load terms from JSON
+    async function loadTerms() {
+        try {
+            const response = await fetch('/data/glossary-curation-data.json');
+            const data = await response.json();
+            termsData.push(...data.terms);
+            renderTable();
+            updateStats();
+            populateCategories();
+        } catch (e) {
+            console.error('Failed to load terms:', e);
+            document.getElementById('terms-body').innerHTML =
+                '<tr><td colspan="7" style="text-align:center;color:#ff6b6b;">Failed to load terms data. Run the extraction script first.</td></tr>';
+        }
+    }
+
+    function renderTable(filter = 'all', category = 'all', search = '') {
+        console.log('renderTable called with filter:', filter);
+        const tbody = document.getElementById('terms-body');
+        tbody.innerHTML = '';
+
+        const searchLower = search.toLowerCase();
+        let shown = 0;
+
+        termsData.forEach((term, idx) => {
+            // Apply filters
+            if (filter === 'website' && !term.websiteTerm) return;
+            if (filter === 'code' && !term.codeTerm) return;
+            if (filter === 'conflict' && !term.hasConflict) return;
+            if (filter === 'undecided' && term.includeV1 !== 'undecided') return;
+            // Optimizer Only: exclude terms that are ONLY from data-collection (not in gear_optimizer or website)
+            if (filter === 'optimizer') {
+                const isFromOptimizer = term.codeSource === 'gear_optimizer';
+                const isFromWebsite = !!term.websiteTerm;
+                if (!isFromOptimizer && !isFromWebsite) return;
+            }
+            if (category !== 'all' && term.category !== category) return;
+            if (search && !term.websiteTerm?.toLowerCase().includes(searchLower) &&
+                !term.codeTerm?.toLowerCase().includes(searchLower)) return;
+
+            // In Optimizer Only mode, hide data-collection code terms (only show gear_optimizer ones)
+            const showCodeTerm = filter !== 'optimizer' || term.codeSource === 'gear_optimizer';
+            const displayCodeTerm = showCodeTerm ? (term.codeTerm || '-') : '-';
+            const displayCodeSource = showCodeTerm ? (term.codeSource || '') : '';
+            const showExamples = showCodeTerm && term.examples && term.examples.length > 0;
+
+            shown++;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <div class="term">${term.websiteTerm || '-'}</div>
+                    <div class="source">${term.websiteSource || ''}</div>
+                </td>
+                <td>
+                    <div class="term">${displayCodeTerm}</div>
+                    <div class="source">${displayCodeSource}</div>
+                    ${showExamples ? `
+                        <div class="examples-toggle" onclick="toggleExamples(${idx})">📂 ${term.examples.length} example${term.examples.length > 1 ? 's' : ''}</div>
+                        <div class="examples-list" id="examples-${idx}">
+                            ${term.examples.map(ex => `
+                                <div class="example-item">
+                                    <span class="example-file">${ex.file}</span>:<span class="example-line">${ex.line}</span>
+                                    <div class="example-snippet">${escapeHtml(ex.snippet)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </td>
+                <td><span class="category-badge">${term.category}</span></td>
+                <td class="${term.hasConflict ? 'conflict' : 'no-conflict'}">
+                    ${term.hasConflict ? 'Yes' : 'No'}
+                </td>
+                <td>
+                    <input type="text" class="final-term"
+                           value="${term.finalTerm || term.websiteTerm || term.codeTerm || ''}"
+                           data-idx="${idx}"
+                           onchange="updateFinalTerm(${idx}, this.value)">
+                </td>
+                <td>
+                    <select class="decision ${term.includeV1 === 'yes' ? 'include-yes' : term.includeV1 === 'later' ? 'include-later' : ''}"
+                            data-idx="${idx}"
+                            onchange="updateInclude(${idx}, this.value)">
+                        <option value="undecided" ${term.includeV1 === 'undecided' ? 'selected' : ''}>Undecided</option>
+                        <option value="yes" ${term.includeV1 === 'yes' ? 'selected' : ''}>Yes - v1</option>
+                        <option value="later" ${term.includeV1 === 'later' ? 'selected' : ''}>Later</option>
+                        <option value="no" ${term.includeV1 === 'no' ? 'selected' : ''}>No</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="final-term"
+                           value="${term.notes || ''}"
+                           placeholder="Notes..."
+                           data-idx="${idx}"
+                           onchange="updateNotes(${idx}, this.value)">
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        console.log('Showing', shown, 'terms for filter:', filter);
+    }
+
+    function updateFinalTerm(idx, value) {
+        termsData[idx].finalTerm = value;
+        saveToLocalStorage();
+    }
+
+    function updateInclude(idx, value) {
+        termsData[idx].includeV1 = value;
+        const select = document.querySelector(`select[data-idx="${idx}"]`);
+        select.className = 'decision ' + (value === 'yes' ? 'include-yes' : value === 'later' ? 'include-later' : '');
+        updateStats();
+        saveToLocalStorage();
+    }
+
+    function updateNotes(idx, value) {
+        termsData[idx].notes = value;
+        saveToLocalStorage();
+    }
+
+    function updateStats() {
+        document.getElementById('total-terms').textContent = termsData.length;
+        // Optimizer scope: terms from gear_optimizer OR from website glossary (excludes data-collection only)
+        const optimizerScope = termsData.filter(t => t.codeSource === 'gear_optimizer' || !!t.websiteTerm);
+        document.getElementById('optimizer-only').textContent = optimizerScope.length;
+        document.getElementById('included-v1').textContent = termsData.filter(t => t.includeV1 === 'yes').length;
+        document.getElementById('later').textContent = termsData.filter(t => t.includeV1 === 'later').length;
+        document.getElementById('conflicts').textContent = termsData.filter(t => t.hasConflict).length;
+        document.getElementById('undecided').textContent = termsData.filter(t => t.includeV1 === 'undecided').length;
+        document.getElementById('excluded').textContent = termsData.filter(t => t.includeV1 === 'no').length;
+    }
+
+    function populateCategories() {
+        const categories = [...new Set(termsData.map(t => t.category))].sort();
+        const select = document.getElementById('category-filter');
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            select.appendChild(option);
+        });
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('glossary-curation', JSON.stringify(termsData));
+    }
+
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('glossary-curation');
+        if (saved) {
+            const savedData = JSON.parse(saved);
+            // Merge saved decisions with current data
+            savedData.forEach(saved => {
+                const term = termsData.find(t =>
+                    (t.websiteTerm === saved.websiteTerm && t.codeTerm === saved.codeTerm) ||
+                    (t.websiteTerm === saved.websiteTerm) ||
+                    (t.codeTerm === saved.codeTerm)
+                );
+                if (term) {
+                    term.finalTerm = saved.finalTerm;
+                    term.includeV1 = saved.includeV1;
+                    term.notes = saved.notes;
+                }
+            });
+            renderTable();
+            updateStats();
+        }
+    }
+
+    function saveDecisions() {
+        saveToLocalStorage();
+        alert('Decisions saved to browser storage!');
+    }
+
+    function loadSaved() {
+        loadFromLocalStorage();
+        alert('Loaded saved decisions!');
+    }
+
+    function exportGlossary() {
+        const v1Terms = termsData.filter(t => t.includeV1 === 'yes');
+
+        // Group by category
+        const glossary = {
+            _meta: {
+                description: "Gaming terms for translation - curated v1",
+                exported: new Date().toISOString()
+            },
+            categories: {}
+        };
+
+        v1Terms.forEach(term => {
+            if (!glossary.categories[term.category]) {
+                glossary.categories[term.category] = {
+                    name: term.category.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                    terms: []
+                };
+            }
+            glossary.categories[term.category].terms.push({
+                en: term.finalTerm || term.websiteTerm || term.codeTerm,
+                context: term.notes || term.context || ''
+            });
+        });
+
+        // Download as JSON
+        const blob = new Blob([JSON.stringify(glossary, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'glossary-v1.json';
+        a.click();
+
+        alert(`Exported ${v1Terms.length} terms to glossary-v1.json`);
+    }
+
+    // Event listeners
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const category = document.getElementById('category-filter').value;
+            const search = document.getElementById('search').value;
+            renderTable(btn.dataset.filter, category, search);
+        });
+    });
+
+    document.getElementById('category-filter').addEventListener('change', (e) => {
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        const search = document.getElementById('search').value;
+        renderTable(activeFilter, e.target.value, search);
+    });
+
+    document.getElementById('search').addEventListener('input', (e) => {
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        const category = document.getElementById('category-filter').value;
+        renderTable(activeFilter, category, e.target.value);
+    });
+
+    // Init
+    loadTerms().then(() => {
+        loadFromLocalStorage();
+    });
+    </script>
+</body>
+</html>

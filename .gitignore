@@ -1,0 +1,40 @@
+# Translation Portal - Private Repo
+# Keep sensitive source data private
+
+# Don't commit extracted source strings to public
+# (these contain all your app's text)
+# data/source-strings.json  # Uncomment if you want to keep source private
+
+# Environment and secrets
+.env
+.env.local
+*.key
+
+# API keys for AI translation
+api-keys.json
+
+# Node modules (if we add any tooling)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/

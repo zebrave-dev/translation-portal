@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "language": "French",
+    "code": "fr",
+    "created": "2025-12-22",
+    "contributors": []
+  },
+  "glossary": {
+    "Infantry": {"text": "", "status": "pending", "official_game_term": true},
+    "Cavalry": {"text": "", "status": "pending", "official_game_term": true},
+    "Archery": {"text": "", "status": "pending", "official_game_term": true},
+    "Food": {"text": "", "status": "pending"},
+    "Wood": {"text": "", "status": "pending"},
+    "Stone": {"text": "", "status": "pending"},
+    "Iron": {"text": "", "status": "pending"},
+    "Gold": {"text": "", "status": "pending"},
+    "Gems": {"text": "", "status": "pending"},
+    "Truegold": {"text": "", "status": "pending", "official_game_term": true},
+    "Satin": {"text": "", "status": "pending", "official_game_term": true},
+    "Gilded Threads": {"text": "", "status": "pending", "official_game_term": true},
+    "Artisan's Vision": {"text": "", "status": "pending", "official_game_term": true},
+    "Forgehammers": {"text": "", "status": "pending", "official_game_term": true},
+    "Mithril": {"text": "", "status": "pending", "official_game_term": true},
+    "Governor Gear": {"text": "", "status": "pending", "official_game_term": true},
+    "Hero Gear": {"text": "", "status": "pending", "official_game_term": true},
+    "Charms": {"text": "", "status": "pending", "official_game_term": true}
+  },
+  "strings": {}
+}
