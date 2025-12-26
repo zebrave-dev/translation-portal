@@ -18,7 +18,6 @@ import argparse
 
 # Source repositories
 GEAR_OPTIMIZER_PATH = Path("/Users/albertajstamper/dev/gear_optimizer")
-KINGSHOT_DATA_PATH = Path("/Users/albertajstamper/dev/kingshot-data-collection")
 OUTPUT_PATH = Path("/Users/albertajstamper/dev/translation-portal/data")
 
 # Files/sections to exclude (developer documentation, not user-facing)
@@ -228,32 +227,6 @@ def extract_gear_optimizer():
 
     return sections
 
-def extract_kingshot_data():
-    """Extract all strings from kingshot-data-collection templates."""
-    sections = {}
-
-    templates_dir = KINGSHOT_DATA_PATH / "scripts" / "templates"
-    if templates_dir.exists():
-        for template_file in templates_dir.glob("*.html"):
-            section_name = f"templates/{template_file.stem}"
-
-            strings = extract_jinja_strings(template_file)
-            if strings:
-                sections[section_name] = {
-                    "source_file": f"scripts/templates/{template_file.name}",
-                    "type": "jinja2_template",
-                    "strings": []
-                }
-                for i, text in enumerate(strings):
-                    string_id = f"{section_name.replace('/', '.')}.{i}"
-                    sections[section_name]["strings"].append({
-                        "id": string_id,
-                        "en": text,
-                        "chars": len(text),
-                        "hash": hash_string(text)
-                    })
-
-    return sections
 
 def calculate_stats(data):
     """Calculate total strings and characters."""
@@ -278,27 +251,19 @@ def main():
     print("STRING EXTRACTION")
     print("=" * 60)
 
-    # Extract from both repos
+    # Extract from gear_optimizer only
     print("\nExtracting from gear_optimizer...")
     gear_sections = extract_gear_optimizer()
 
-    print("Extracting from kingshot-data-collection...")
-    kingshot_sections = extract_kingshot_data()
-
-    # Combine
-    all_sections = {}
-    all_sections.update({f"gear_optimizer/{k}": v for k, v in gear_sections.items()})
-    all_sections.update({f"kingshot_data/{k}": v for k, v in kingshot_sections.items()})
+    # Build sections
+    all_sections = {f"gear_optimizer/{k}": v for k, v in gear_sections.items()}
 
     # Build output structure
     output = {
         "meta": {
             "extracted_at": datetime.now().isoformat(),
             "version": datetime.now().strftime("%Y%m%d_%H%M%S"),
-            "sources": [
-                str(GEAR_OPTIMIZER_PATH),
-                str(KINGSHOT_DATA_PATH)
-            ]
+            "sources": [str(GEAR_OPTIMIZER_PATH)]
         },
         "sections": all_sections
     }

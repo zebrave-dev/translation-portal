@@ -16,6 +16,31 @@
         h1 { color: #4ecdc4; margin-bottom: 0.5rem; }
         .subtitle { color: #888; margin-bottom: 1.5rem; }
 
+        .admin-warning {
+            background: #dc2626;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .back-link {
+            display: inline-block;
+            color: #4ecdc4;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+
         .controls {
             background: #252540;
             padding: 1rem;
@@ -173,6 +198,8 @@
     </style>
 </head>
 <body>
+    <div class="admin-warning">⚠️ ADMIN ONLY — PLEASE DO NOT TOUCH ⚠️</div>
+    <a href="index.html" class="back-link">← Back to Translation Portal</a>
     <h1>Glossary Curation Tool</h1>
     <p class="subtitle">Admin tool for deciding which terms go into the translation glossary</p>
 
