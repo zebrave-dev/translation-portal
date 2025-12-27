@@ -1,0 +1,151 @@
+name: Sync Source Strings
+
+on:
+  # Manual trigger from GitHub Actions UI
+  workflow_dispatch:
+
+  # Trigger from gear_optimizer repo (requires webhook setup)
+  repository_dispatch:
+    types: [source-strings-updated]
+
+  # Optional: run on schedule (e.g., daily at 6am UTC)
+  # schedule:
+  #   - cron: '0 6 * * *'
+
+jobs:
+  sync-strings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout translation-portal
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout gear_optimizer
+        uses: actions/checkout@v4
+        with:
+          repository: zebrave-dev/gear_optimizer
+          path: gear_optimizer
+          token: ${{ secrets.GEAR_OPTIMIZER_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Save previous source-strings.json
+        run: |
+          if [ -f data/source-strings.json ]; then
+            cp data/source-strings.json data/source-strings-previous.json
+          fi
+
+      - name: Run extraction script
+        run: |
+          # Update the path in extract_strings.py to use the checked out repo
+          sed -i 's|/Users/albertajstamper/dev/gear_optimizer|${{ github.workspace }}/gear_optimizer|g' scripts/extract_strings.py
+          sed -i 's|/Users/albertajstamper/dev/translation-portal/data|${{ github.workspace }}/data|g' scripts/extract_strings.py
+
+          python3 scripts/extract_strings.py
+
+      - name: Compare and generate changelog
+        id: compare
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+
+          # Load previous and current
+          prev_file = 'data/source-strings-previous.json'
+          curr_file = 'data/source-strings.json'
+
+          if not os.path.exists(prev_file):
+              print("No previous file, this is initial extraction")
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('has_changes=true\n')
+                  f.write('changelog=Initial extraction\n')
+              exit(0)
+
+          with open(prev_file) as f:
+              prev = json.load(f)
+          with open(curr_file) as f:
+              curr = json.load(f)
+
+          # Build ID -> hash maps
+          prev_hashes = {}
+          for section in prev.get('sections', {}).values():
+              for s in section.get('strings', []):
+                  prev_hashes[s['id']] = s['hash']
+
+          curr_hashes = {}
+          for section in curr.get('sections', {}).values():
+              for s in section.get('strings', []):
+                  curr_hashes[s['id']] = s['hash']
+
+          # Find differences
+          added = set(curr_hashes.keys()) - set(prev_hashes.keys())
+          removed = set(prev_hashes.keys()) - set(curr_hashes.keys())
+          modified = {id for id in curr_hashes if id in prev_hashes and curr_hashes[id] != prev_hashes[id]}
+
+          has_changes = len(added) > 0 or len(removed) > 0 or len(modified) > 0
+
+          changelog_parts = []
+          if added:
+              changelog_parts.append(f"Added {len(added)} strings")
+          if modified:
+              changelog_parts.append(f"Modified {len(modified)} strings")
+          if removed:
+              changelog_parts.append(f"Removed {len(removed)} strings")
+
+          changelog = ', '.join(changelog_parts) if changelog_parts else 'No changes'
+
+          print(f"Changes detected: {has_changes}")
+          print(f"Changelog: {changelog}")
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'has_changes={str(has_changes).lower()}\n')
+              f.write(f'changelog={changelog}\n')
+
+          # Write detailed changelog to file
+          with open('data/last-sync-changelog.txt', 'w') as f:
+              f.write(f"Sync at: {curr['meta']['extracted_at']}\n")
+              f.write(f"Total strings: {curr['meta']['total_strings']}\n")
+              f.write(f"Total chars: {curr['meta']['total_chars']}\n\n")
+              if added:
+                  f.write(f"Added ({len(added)}):\n")
+                  for id in sorted(added)[:20]:
+                      f.write(f"  + {id}\n")
+                  if len(added) > 20:
+                      f.write(f"  ... and {len(added) - 20} more\n")
+              if modified:
+                  f.write(f"\nModified ({len(modified)}):\n")
+                  for id in sorted(modified)[:20]:
+                      f.write(f"  ~ {id}\n")
+                  if len(modified) > 20:
+                      f.write(f"  ... and {len(modified) - 20} more\n")
+              if removed:
+                  f.write(f"\nRemoved ({len(removed)}):\n")
+                  for id in sorted(removed)[:20]:
+                      f.write(f"  - {id}\n")
+                  if len(removed) > 20:
+                      f.write(f"  ... and {len(removed) - 20} more\n")
+          EOF
+
+      - name: Copy to site/data
+        if: steps.compare.outputs.has_changes == 'true'
+        run: |
+          cp data/source-strings.json site/data/source-strings.json
+
+      - name: Cleanup
+        run: |
+          rm -f data/source-strings-previous.json
+          rm -rf gear_optimizer
+
+      - name: Commit and push
+        if: steps.compare.outputs.has_changes == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data/source-strings.json site/data/source-strings.json data/last-sync-changelog.txt
+          git commit -m "Sync source strings: ${{ steps.compare.outputs.changelog }}"
+          git push

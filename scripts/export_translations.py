@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-Export approved translations back to source apps.
+Export approved translations back to gear_optimizer.
 
 Generates:
 - gear_optimizer/src/locales/{lang}.json (for vue-i18n)
-- kingshot-data-collection/scripts/locales/{lang}.json (for Jinja2)
 
 Usage:
     python3 scripts/export_translations.py           # Export all languages
@@ -21,7 +20,6 @@ from datetime import datetime
 # Paths
 DATA_PATH = Path("/Users/albertajstamper/dev/translation-portal/data")
 GEAR_OPTIMIZER_PATH = Path("/Users/albertajstamper/dev/gear_optimizer")
-KINGSHOT_DATA_PATH = Path("/Users/albertajstamper/dev/kingshot-data-collection")
 
 LANGUAGES = ["ko", "es", "pt", "fr"]
 
@@ -139,62 +137,8 @@ def export_gear_optimizer(lang, translations, source_data, dry_run=False):
 
     return exported_count
 
-def export_kingshot_data(lang, translations, source_data, dry_run=False):
-    """
-    Export translations for kingshot-data-collection templates.
-
-    Output format for Jinja2:
-    {
-        "_meta": {...},
-        "strings": {
-            "Dashboard": "대시보드",
-            "Governor Gear": "총독 장비"
-        }
-    }
-    """
-    output = {
-        "_meta": {
-            "language": lang,
-            "exported_at": datetime.now().isoformat(),
-        },
-        "strings": {}
-    }
-    exported_count = 0
-
-    for section_name, section_data in source_data["sections"].items():
-        if not section_name.startswith("kingshot_data/"):
-            continue
-
-        for string_data in section_data["strings"]:
-            string_id = string_data["id"]
-            en_text = string_data["en"]
-
-            # Check if we have a translation
-            if string_id in translations:
-                trans_entry = translations[string_id]
-                if trans_entry.get("status") in ["approved", "submitted", "draft"]:
-                    # For Jinja2, we use English text as key for simple lookup
-                    output["strings"][en_text] = trans_entry.get("text", "")
-                    exported_count += 1
-
-    output["_meta"]["string_count"] = exported_count
-
-    # Output path
-    locales_dir = KINGSHOT_DATA_PATH / "scripts" / "locales"
-
-    if not dry_run:
-        locales_dir.mkdir(parents=True, exist_ok=True)
-        output_file = locales_dir / f"{lang}.json"
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
-        print(f"  Exported {exported_count} strings to {output_file}")
-    else:
-        print(f"  [DRY RUN] Would export {exported_count} strings to {locales_dir}/{lang}.json")
-
-    return exported_count
-
 def main():
-    parser = argparse.ArgumentParser(description='Export translations to apps')
+    parser = argparse.ArgumentParser(description='Export translations to gear_optimizer')
     parser.add_argument('--lang', help='Export specific language only')
     parser.add_argument('--dry-run', action='store_true', help='Preview without writing')
     args = parser.parse_args()
@@ -229,11 +173,9 @@ def main():
         for status, count in status_counts.items():
             print(f"    - {status}: {count}")
 
-        # Export to each app
+        # Export to gear_optimizer
         gear_count = export_gear_optimizer(lang, translations, source_data, args.dry_run)
-        kingshot_count = export_kingshot_data(lang, translations, source_data, args.dry_run)
-
-        total_exported += gear_count + kingshot_count
+        total_exported += gear_count
 
     print(f"\n{'=' * 60}")
     print(f"TOTAL EXPORTED: {total_exported} strings")

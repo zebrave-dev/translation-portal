@@ -225,8 +225,27 @@ pip3 install deep-translator  # For AI translation script
 
 ## TODO / Next Steps
 
-1. **Configure KV in Cloudflare Dashboard** - Create namespace and bind to Pages project (see KV Setup above)
+1. **Set up GEAR_OPTIMIZER_TOKEN secret** - In GitHub repo settings, add a Personal Access Token that can read gear_optimizer repo
 2. **Finish glossary curation** - Mark all terms as include/later/no
 3. **Korean translation** - Highest priority, has AI suggestions ready
 4. **Portuguese translation** - Second priority after Korean
-5. **Add sync/diff for source changes** - `--sync` flag exists but not fully implemented
+
+## GitHub Actions
+
+### Sync Source Strings (.github/workflows/sync-strings.yml)
+
+Automatically extracts strings from gear_optimizer and updates translation-portal.
+
+**Triggers:**
+- Manual: Go to Actions tab → "Sync Source Strings" → "Run workflow"
+- Webhook: From gear_optimizer (requires repository_dispatch setup)
+
+**Requirements:**
+- `GEAR_OPTIMIZER_TOKEN` secret: Personal Access Token with read access to gear_optimizer repo
+
+**What it does:**
+1. Clones gear_optimizer
+2. Runs extract_strings.py
+3. Compares with previous source-strings.json
+4. Commits with changelog: "Sync source strings: Added 5, Modified 3, Removed 1"
+5. Writes detailed changelog to data/last-sync-changelog.txt
