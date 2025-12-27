@@ -109,15 +109,18 @@ async function populateLanguageDropdown() {
 function updateTranslatorDisplay() {
     const display = document.getElementById('translator-display');
     const input = document.getElementById('translator-name');
+    const setBtn = document.getElementById('set-name-btn');
     const name = input.value.trim();
 
     if (name) {
         display.innerHTML = `<span style="background: var(--accent); color: white; padding: 0.3rem 0.75rem; border-radius: 4px; font-size: 0.9rem;">👤 ${escapeHtml(name)}</span>`;
         display.style.display = 'inline-block';
         input.style.display = 'none';
+        if (setBtn) setBtn.style.display = 'none';
     } else {
         display.style.display = 'none';
         input.style.display = 'inline-block';
+        if (setBtn) setBtn.style.display = 'inline-block';
     }
 }
 
@@ -173,20 +176,28 @@ async function init() {
     translatorName.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            const name = translatorName.value.trim();
-            if (name) {
-                localStorage.setItem('translatorName', name);
-                updateTranslatorDisplay();
-                showToast(`Welcome, ${name}!`, 'success');
-            } else {
-                showToast('Please enter your name', 'error');
-            }
+            submitName();
         }
     });
+
+    // Set name button click
+    document.getElementById('set-name-btn').addEventListener('click', submitName);
+
+    function submitName() {
+        const name = translatorName.value.trim();
+        if (name) {
+            localStorage.setItem('translatorName', name);
+            updateTranslatorDisplay();
+            showToast(`Welcome, ${name}!`, 'success');
+        } else {
+            showToast('Please enter your name', 'error');
+        }
+    }
 
     // Click on name display to edit
     document.getElementById('translator-display').addEventListener('click', () => {
         document.getElementById('translator-display').style.display = 'none';
+        document.getElementById('set-name-btn').style.display = 'inline-block';
         translatorName.style.display = 'inline-block';
         translatorName.focus();
         translatorName.select();
