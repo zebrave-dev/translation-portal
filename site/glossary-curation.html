@@ -41,6 +41,16 @@
         }
         .back-link:hover { text-decoration: underline; }
 
+        .info-box {
+            background: #252540;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4ecdc4;
+        }
+        .info-box h3 { color: #4ecdc4; margin-bottom: 0.5rem; }
+        .info-box p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
+
         .controls {
             background: #252540;
             padding: 1rem;
@@ -59,6 +69,27 @@
             padding: 0.5rem;
             border-radius: 4px;
         }
+        .filter-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #333;
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .filter-btn:hover { background: #444; }
+        .filter-btn.active {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            border-color: #4ecdc4;
+        }
+
         button {
             background: #4ecdc4;
             color: #1a1a2e;
@@ -81,6 +112,7 @@
             margin-bottom: 1rem;
             display: flex;
             gap: 2rem;
+            flex-wrap: wrap;
         }
         .stat { text-align: center; }
         .stat-value { font-size: 1.5rem; color: #4ecdc4; font-weight: bold; }
@@ -101,86 +133,92 @@
             color: #4ecdc4;
             position: sticky;
             top: 0;
+            z-index: 10;
         }
         td {
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             border-bottom: 1px solid #333;
             vertical-align: top;
         }
-        tr:hover { background: #2a2a4a; }
+        tr:hover { background: rgba(78, 205, 196, 0.1); }
 
-        .term { font-weight: bold; color: #fff; }
-        .source { font-size: 0.75rem; color: #888; }
-        .examples-toggle {
+        .term-name {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+        .term-category {
+            font-size: 0.75rem;
+            color: #888;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .term-occurrences {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        .examples {
+            font-size: 0.8rem;
+            color: #888;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+        .examples.show {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .example-item {
+            background: #1a1a2e;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+        .example-source {
+            color: #666;
             font-size: 0.7rem;
+        }
+        .toggle-examples {
+            font-size: 0.75rem;
             color: #4ecdc4;
             cursor: pointer;
-            margin-top: 0.25rem;
-        }
-        .examples-toggle:hover { text-decoration: underline; }
-        .examples-list {
-            display: none;
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            background: #1a1a2e;
-            border-radius: 4px;
-            font-size: 0.7rem;
-        }
-        .examples-list.show { display: block; }
-        .example-item {
-            margin-bottom: 0.3rem;
-            font-family: monospace;
-        }
-        .example-file { color: #4ecdc4; }
-        .example-line { color: #ffa500; }
-        .example-snippet { color: #aaa; }
-        .conflict { color: #ff6b6b; font-weight: bold; }
-        .no-conflict { color: #6bff6b; }
-
-        .category-badge {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            background: #444;
-            color: #ddd;
+            text-decoration: underline;
         }
 
-        select.decision {
-            width: 100%;
-            background: #1a1a2e;
-            border: 1px solid #444;
-            color: #eee;
-            padding: 0.3rem;
-            border-radius: 4px;
+        .decision-btns {
+            display: flex;
+            gap: 0.25rem;
         }
-        select.decision.include-yes { border-color: #4ecdc4; background: #1a3a38; }
-        select.decision.include-no { border-color: #666; }
-        select.decision.include-later { border-color: #ffa500; background: #3a3020; }
-
-        input.final-term {
-            width: 100%;
-            background: #1a1a2e;
-            border: 1px solid #444;
-            color: #eee;
-            padding: 0.3rem;
-            border-radius: 4px;
-        }
-
-        .filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .filter-btn {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .decision-btn {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 3px;
             cursor: pointer;
             border: 1px solid #444;
-            background: transparent;
+            background: #333;
             color: #aaa;
         }
-        .filter-btn.active {
-            background: #4ecdc4;
-            color: #1a1a2e;
-            border-color: #4ecdc4;
+        .decision-btn:hover { background: #444; }
+        .decision-btn.yes { border-color: #22c55e; }
+        .decision-btn.yes.active { background: #22c55e; color: #fff; }
+        .decision-btn.later { border-color: #f59e0b; }
+        .decision-btn.later.active { background: #f59e0b; color: #fff; }
+        .decision-btn.no { border-color: #ef4444; }
+        .decision-btn.no.active { background: #ef4444; color: #fff; }
+
+        .note-input {
+            width: 100%;
+            background: #1a1a2e;
+            border: 1px solid #444;
+            color: #eee;
+            padding: 0.3rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
         .actions {
@@ -194,6 +232,13 @@
             gap: 1rem;
             justify-content: center;
             border-top: 1px solid #444;
+            z-index: 100;
+        }
+
+        .category-note {
+            font-size: 0.75rem;
+            color: #f59e0b;
+            font-style: italic;
         }
     </style>
 </head>
@@ -201,18 +246,26 @@
     <div class="admin-warning">⚠️ ADMIN ONLY — PLEASE DO NOT TOUCH ⚠️</div>
     <a href="index.html" class="back-link">← Back to Translation Portal</a>
     <h1>Glossary Curation Tool</h1>
-    <p class="subtitle">Admin tool for deciding which terms go into the translation glossary</p>
+    <p class="subtitle">Decide which game terms need official in-game translations</p>
+
+    <div class="info-box">
+        <h3>How to use this tool</h3>
+        <p>
+            These terms were extracted from the gear_optimizer codebase. For each term, decide if translators
+            need to look up the <strong>official in-game translation</strong> (by checking the Korean/Portuguese game client).
+            Terms marked "Yes" will appear in the translation glossary with a note to verify against the game.
+        </p>
+    </div>
 
     <div class="controls">
         <div>
             <label>Filter: </label>
             <div class="filter-row">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="optimizer">Optimizer Only</button>
-                <button class="filter-btn" data-filter="website">Website Terms</button>
-                <button class="filter-btn" data-filter="code">Code Terms</button>
-                <button class="filter-btn" data-filter="conflict">Conflicts</button>
                 <button class="filter-btn" data-filter="undecided">Undecided</button>
+                <button class="filter-btn" data-filter="yes">Include ✓</button>
+                <button class="filter-btn" data-filter="later">Later</button>
+                <button class="filter-btn" data-filter="no">Exclude ✗</button>
             </div>
         </div>
         <div>
@@ -233,10 +286,6 @@
             <div class="stat-label">Total Terms</div>
         </div>
         <div class="stat">
-            <div class="stat-value" id="optimizer-only">0</div>
-            <div class="stat-label">Optimizer Scope</div>
-        </div>
-        <div class="stat">
             <div class="stat-value" id="included-v1">0</div>
             <div class="stat-label">Include v1</div>
         </div>
@@ -245,29 +294,23 @@
             <div class="stat-label">Later</div>
         </div>
         <div class="stat">
-            <div class="stat-value" id="conflicts">0</div>
-            <div class="stat-label">Conflicts</div>
+            <div class="stat-value" id="excluded">0</div>
+            <div class="stat-label">Excluded</div>
         </div>
         <div class="stat">
             <div class="stat-value" id="undecided">0</div>
             <div class="stat-label">Undecided</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value" id="excluded">0</div>
-            <div class="stat-label">Excluded</div>
         </div>
     </div>
 
     <table id="terms-table">
         <thead>
             <tr>
-                <th style="width: 20%">Term (Website)</th>
-                <th style="width: 25%">Term (Code/Found)</th>
-                <th style="width: 10%">Category</th>
-                <th style="width: 10%">Conflict?</th>
-                <th style="width: 20%">Final Term</th>
-                <th style="width: 10%">Include v1?</th>
-                <th style="width: 10%">Notes</th>
+                <th style="width: 25%">Term</th>
+                <th style="width: 10%">Uses</th>
+                <th style="width: 25%">Examples</th>
+                <th style="width: 15%">Include in Glossary?</th>
+                <th style="width: 25%">Notes</th>
             </tr>
         </thead>
         <tbody id="terms-body">
@@ -275,14 +318,15 @@
     </table>
 
     <div class="actions">
-        <button onclick="saveDecisions()">Save Decisions</button>
-        <button class="secondary" onclick="exportGlossary()">Export v1 Glossary</button>
-        <button class="secondary" onclick="loadSaved()">Load Saved</button>
+        <button onclick="saveDecisions()">💾 Save Decisions</button>
+        <button class="secondary" onclick="exportGlossary()">📥 Export v1 Glossary</button>
+        <button class="secondary" onclick="loadSaved()">📂 Load Saved</button>
+        <button class="secondary" onclick="markAllUndecidedYes()">✓ Mark All Undecided as Yes</button>
     </div>
 
     <script>
-    // Terms data will be populated here
-    const termsData = [];
+    let termsData = [];
+    let categoryNotes = {};
 
     function escapeHtml(text) {
         const div = document.createElement('div');
@@ -292,223 +336,188 @@
 
     function toggleExamples(idx) {
         const el = document.getElementById(`examples-${idx}`);
-        if (el) {
-            el.classList.toggle('show');
-        }
+        if (el) el.classList.toggle('show');
     }
 
-    // Load terms from JSON
     async function loadTerms() {
         try {
-            const response = await fetch('/data/glossary-curation-data.json');
+            const response = await fetch('data/glossary-curation-data.json');
             const data = await response.json();
-            termsData.push(...data.terms);
+            termsData = data.terms;
+            categoryNotes = data.categoryNotes || {};
             renderTable();
             updateStats();
             populateCategories();
         } catch (e) {
             console.error('Failed to load terms:', e);
             document.getElementById('terms-body').innerHTML =
-                '<tr><td colspan="7" style="text-align:center;color:#ff6b6b;">Failed to load terms data. Run the extraction script first.</td></tr>';
+                '<tr><td colspan="5" style="text-align:center;color:#ff6b6b;">Failed to load terms. Run build_glossary_curation.py first.</td></tr>';
         }
     }
 
     function renderTable(filter = 'all', category = 'all', search = '') {
-        console.log('renderTable called with filter:', filter);
         const tbody = document.getElementById('terms-body');
         tbody.innerHTML = '';
-
         const searchLower = search.toLowerCase();
-        let shown = 0;
 
         termsData.forEach((term, idx) => {
             // Apply filters
-            if (filter === 'website' && !term.websiteTerm) return;
-            if (filter === 'code' && !term.codeTerm) return;
-            if (filter === 'conflict' && !term.hasConflict) return;
             if (filter === 'undecided' && term.includeV1 !== 'undecided') return;
-            // Optimizer Only: exclude terms that are ONLY from data-collection (not in gear_optimizer or website)
-            if (filter === 'optimizer') {
-                const isFromOptimizer = term.codeSource === 'gear_optimizer';
-                const isFromWebsite = !!term.websiteTerm;
-                if (!isFromOptimizer && !isFromWebsite) return;
-            }
+            if (filter === 'yes' && term.includeV1 !== 'yes') return;
+            if (filter === 'later' && term.includeV1 !== 'later') return;
+            if (filter === 'no' && term.includeV1 !== 'no') return;
             if (category !== 'all' && term.category !== category) return;
-            if (search && !term.websiteTerm?.toLowerCase().includes(searchLower) &&
-                !term.codeTerm?.toLowerCase().includes(searchLower)) return;
+            if (search && !term.term.toLowerCase().includes(searchLower)) return;
 
-            // In Optimizer Only mode, hide data-collection code terms (only show gear_optimizer ones)
-            const showCodeTerm = filter !== 'optimizer' || term.codeSource === 'gear_optimizer';
-            const displayCodeTerm = showCodeTerm ? (term.codeTerm || '-') : '-';
-            const displayCodeSource = showCodeTerm ? (term.codeSource || '') : '';
-            const showExamples = showCodeTerm && term.examples && term.examples.length > 0;
+            const catNote = categoryNotes[term.category] || '';
 
-            shown++;
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>
-                    <div class="term">${term.websiteTerm || '-'}</div>
-                    <div class="source">${term.websiteSource || ''}</div>
+                    <div class="term-name">${escapeHtml(term.term)}</div>
+                    <div class="term-category">${escapeHtml(term.categoryName)}</div>
+                    ${catNote ? `<div class="category-note">${escapeHtml(catNote)}</div>` : ''}
                 </td>
                 <td>
-                    <div class="term">${displayCodeTerm}</div>
-                    <div class="source">${displayCodeSource}</div>
-                    ${showExamples ? `
-                        <div class="examples-toggle" onclick="toggleExamples(${idx})">📂 ${term.examples.length} example${term.examples.length > 1 ? 's' : ''}</div>
-                        <div class="examples-list" id="examples-${idx}">
-                            ${term.examples.map(ex => `
-                                <div class="example-item">
-                                    <span class="example-file">${ex.file}</span>:<span class="example-line">${ex.line}</span>
-                                    <div class="example-snippet">${escapeHtml(ex.snippet)}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-                </td>
-                <td><span class="category-badge">${term.category}</span></td>
-                <td class="${term.hasConflict ? 'conflict' : 'no-conflict'}">
-                    ${term.hasConflict ? 'Yes' : 'No'}
+                    <span class="term-occurrences">${term.occurrences}</span>
+                    <div style="font-size:0.75rem;color:#666;">${term.sectionCount} files</div>
                 </td>
                 <td>
-                    <input type="text" class="final-term"
-                           value="${term.finalTerm || term.websiteTerm || term.codeTerm || ''}"
-                           data-idx="${idx}"
-                           onchange="updateFinalTerm(${idx}, this.value)">
+                    <span class="toggle-examples" onclick="toggleExamples(${idx})">Show examples ▼</span>
+                    <div class="examples" id="examples-${idx}">
+                        ${term.examples.map(ex => `
+                            <div class="example-item">
+                                "${escapeHtml(ex.text)}"
+                                <div class="example-source">${escapeHtml(ex.source)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </td>
                 <td>
-                    <select class="decision ${term.includeV1 === 'yes' ? 'include-yes' : term.includeV1 === 'later' ? 'include-later' : ''}"
-                            data-idx="${idx}"
-                            onchange="updateInclude(${idx}, this.value)">
-                        <option value="undecided" ${term.includeV1 === 'undecided' ? 'selected' : ''}>Undecided</option>
-                        <option value="yes" ${term.includeV1 === 'yes' ? 'selected' : ''}>Yes - v1</option>
-                        <option value="later" ${term.includeV1 === 'later' ? 'selected' : ''}>Later</option>
-                        <option value="no" ${term.includeV1 === 'no' ? 'selected' : ''}>No</option>
-                    </select>
+                    <div class="decision-btns">
+                        <button class="decision-btn yes ${term.includeV1 === 'yes' ? 'active' : ''}"
+                                onclick="setDecision(${idx}, 'yes')">Yes</button>
+                        <button class="decision-btn later ${term.includeV1 === 'later' ? 'active' : ''}"
+                                onclick="setDecision(${idx}, 'later')">Later</button>
+                        <button class="decision-btn no ${term.includeV1 === 'no' ? 'active' : ''}"
+                                onclick="setDecision(${idx}, 'no')">No</button>
+                    </div>
                 </td>
                 <td>
-                    <input type="text" class="final-term"
-                           value="${term.notes || ''}"
-                           placeholder="Notes..."
-                           data-idx="${idx}"
-                           onchange="updateNotes(${idx}, this.value)">
+                    <input type="text" class="note-input"
+                           value="${escapeHtml(term.notes || '')}"
+                           placeholder="Optional notes..."
+                           onchange="setNotes(${idx}, this.value)">
                 </td>
             `;
             tbody.appendChild(row);
         });
-        console.log('Showing', shown, 'terms for filter:', filter);
     }
 
-    function updateFinalTerm(idx, value) {
-        termsData[idx].finalTerm = value;
-        saveToLocalStorage();
-    }
-
-    function updateInclude(idx, value) {
-        termsData[idx].includeV1 = value;
-        const select = document.querySelector(`select[data-idx="${idx}"]`);
-        select.className = 'decision ' + (value === 'yes' ? 'include-yes' : value === 'later' ? 'include-later' : '');
+    function setDecision(idx, decision) {
+        termsData[idx].includeV1 = decision;
         updateStats();
-        saveToLocalStorage();
+        // Re-render to update button states
+        const filter = document.querySelector('.filter-btn.active').dataset.filter;
+        const category = document.getElementById('category-filter').value;
+        const search = document.getElementById('search').value;
+        renderTable(filter, category, search);
     }
 
-    function updateNotes(idx, value) {
-        termsData[idx].notes = value;
-        saveToLocalStorage();
+    function setNotes(idx, notes) {
+        termsData[idx].notes = notes;
     }
 
     function updateStats() {
-        document.getElementById('total-terms').textContent = termsData.length;
-        // Optimizer scope: terms from gear_optimizer OR from website glossary (excludes data-collection only)
-        const optimizerScope = termsData.filter(t => t.codeSource === 'gear_optimizer' || !!t.websiteTerm);
-        document.getElementById('optimizer-only').textContent = optimizerScope.length;
-        document.getElementById('included-v1').textContent = termsData.filter(t => t.includeV1 === 'yes').length;
-        document.getElementById('later').textContent = termsData.filter(t => t.includeV1 === 'later').length;
-        document.getElementById('conflicts').textContent = termsData.filter(t => t.hasConflict).length;
-        document.getElementById('undecided').textContent = termsData.filter(t => t.includeV1 === 'undecided').length;
-        document.getElementById('excluded').textContent = termsData.filter(t => t.includeV1 === 'no').length;
+        const total = termsData.length;
+        const yes = termsData.filter(t => t.includeV1 === 'yes').length;
+        const later = termsData.filter(t => t.includeV1 === 'later').length;
+        const no = termsData.filter(t => t.includeV1 === 'no').length;
+        const undecided = termsData.filter(t => t.includeV1 === 'undecided').length;
+
+        document.getElementById('total-terms').textContent = total;
+        document.getElementById('included-v1').textContent = yes;
+        document.getElementById('later').textContent = later;
+        document.getElementById('excluded').textContent = no;
+        document.getElementById('undecided').textContent = undecided;
     }
 
     function populateCategories() {
-        const categories = [...new Set(termsData.map(t => t.category))].sort();
         const select = document.getElementById('category-filter');
+        const categories = [...new Set(termsData.map(t => t.category))];
+        categories.sort();
         categories.forEach(cat => {
+            const catName = termsData.find(t => t.category === cat)?.categoryName || cat;
             const option = document.createElement('option');
             option.value = cat;
-            option.textContent = cat;
+            option.textContent = catName;
             select.appendChild(option);
         });
     }
 
-    function saveToLocalStorage() {
-        localStorage.setItem('glossary-curation', JSON.stringify(termsData));
-    }
-
-    function loadFromLocalStorage() {
-        const saved = localStorage.getItem('glossary-curation');
-        if (saved) {
-            const savedData = JSON.parse(saved);
-            // Merge saved decisions with current data
-            savedData.forEach(saved => {
-                const term = termsData.find(t =>
-                    (t.websiteTerm === saved.websiteTerm && t.codeTerm === saved.codeTerm) ||
-                    (t.websiteTerm === saved.websiteTerm) ||
-                    (t.codeTerm === saved.codeTerm)
-                );
-                if (term) {
-                    term.finalTerm = saved.finalTerm;
-                    term.includeV1 = saved.includeV1;
-                    term.notes = saved.notes;
-                }
-            });
-            renderTable();
-            updateStats();
-        }
-    }
-
     function saveDecisions() {
-        saveToLocalStorage();
+        const saveData = termsData.map(t => ({
+            term: t.term,
+            includeV1: t.includeV1,
+            notes: t.notes
+        }));
+        localStorage.setItem('glossary-curation-decisions', JSON.stringify(saveData));
         alert('Decisions saved to browser storage!');
     }
 
     function loadSaved() {
-        loadFromLocalStorage();
+        const saved = localStorage.getItem('glossary-curation-decisions');
+        if (!saved) {
+            alert('No saved decisions found.');
+            return;
+        }
+        const savedData = JSON.parse(saved);
+        savedData.forEach(s => {
+            const term = termsData.find(t => t.term === s.term);
+            if (term) {
+                term.includeV1 = s.includeV1;
+                term.notes = s.notes || '';
+            }
+        });
+        updateStats();
+        renderTable();
         alert('Loaded saved decisions!');
     }
 
     function exportGlossary() {
-        const v1Terms = termsData.filter(t => t.includeV1 === 'yes');
-
-        // Group by category
+        const included = termsData.filter(t => t.includeV1 === 'yes');
         const glossary = {
             _meta: {
-                description: "Gaming terms for translation - curated v1",
-                exported: new Date().toISOString()
+                description: "Game terms requiring official in-game translation lookup",
+                exported: new Date().toISOString(),
+                totalTerms: included.length
             },
-            categories: {}
+            terms: {}
         };
 
-        v1Terms.forEach(term => {
-            if (!glossary.categories[term.category]) {
-                glossary.categories[term.category] = {
-                    name: term.category.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-                    terms: []
-                };
-            }
-            glossary.categories[term.category].terms.push({
-                en: term.finalTerm || term.websiteTerm || term.codeTerm,
-                context: term.notes || term.context || ''
-            });
+        included.forEach(t => {
+            glossary.terms[t.term] = {
+                category: t.categoryName,
+                lookupNote: categoryNotes[t.category] || "Check in-game for official translation",
+                notes: t.notes || ""
+            };
         });
 
-        // Download as JSON
         const blob = new Blob([JSON.stringify(glossary, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'glossary-v1.json';
         a.click();
+        URL.revokeObjectURL(url);
+    }
 
-        alert(`Exported ${v1Terms.length} terms to glossary-v1.json`);
+    function markAllUndecidedYes() {
+        termsData.forEach(t => {
+            if (t.includeV1 === 'undecided') t.includeV1 = 'yes';
+        });
+        updateStats();
+        renderTable();
     }
 
     // Event listeners
@@ -523,21 +532,19 @@
     });
 
     document.getElementById('category-filter').addEventListener('change', (e) => {
-        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        const filter = document.querySelector('.filter-btn.active').dataset.filter;
         const search = document.getElementById('search').value;
-        renderTable(activeFilter, e.target.value, search);
+        renderTable(filter, e.target.value, search);
     });
 
     document.getElementById('search').addEventListener('input', (e) => {
-        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        const filter = document.querySelector('.filter-btn.active').dataset.filter;
         const category = document.getElementById('category-filter').value;
-        renderTable(activeFilter, category, e.target.value);
+        renderTable(filter, category, e.target.value);
     });
 
-    // Init
-    loadTerms().then(() => {
-        loadFromLocalStorage();
-    });
+    // Initialize
+    loadTerms();
     </script>
 </body>
 </html>

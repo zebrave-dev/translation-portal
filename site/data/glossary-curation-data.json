@@ -1,1600 +1,837 @@
 {
-  "description": "Combined glossary terms from website and code repos for curation",
-  "generated": "2025-12-24",
+  "description": "Game terms extracted from gear_optimizer for translation glossary",
+  "generated": "2025-12-26 22:03",
+  "source": "gear_optimizer (Vue components + Markdown content)",
+  "totalTerms": 32,
+  "categoryNotes": {
+    "troop_types": "Check in-game troop menu for official translations",
+    "stats": "Check gear stats screen for official translations",
+    "resources": "Check resource bar and inventory for official translations",
+    "gear_materials": "Check gear upgrade screen for official translations",
+    "gear_pieces": "Check gear inventory for official translations",
+    "rarity": "Check gear quality colors/names in-game",
+    "game_features": "Check main menu and feature names in-game",
+    "hero_related": "Check hero menu for official translations"
+  },
   "terms": [
     {
-      "websiteTerm": "Infantry",
-      "codeTerm": "Infantry",
+      "term": "Mythic",
+      "category": "rarity",
+      "categoryName": "Rarity Tiers",
+      "occurrences": 109,
+      "sectionCount": 15,
+      "examples": [
+        {
+          "text": "Cumulative Mythic",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Mythic Bonus",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Mythic Formula",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Infantry",
       "category": "troop_types",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Ground melee troops",
+      "categoryName": "Troop Types",
+      "occurrences": 68,
+      "sectionCount": 12,
       "examples": [
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 140,
-          "snippet": "- **Gear Naming in Advanced Tools**: Fixed inconsistent gear naming in \"Next Best XP Upgrades\" and \""
+          "text": "Infantry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 215,
-          "snippet": "- 12 gear pieces across Infantry, Archer, and Cavalry"
+          "text": "Infantry Defense",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 446,
-          "snippet": "- **Abbreviated Labels**: Shorter stat names for mobile (\"Inf HP\" instead of \"Infantry Health\")"
+          "text": "Infantry Attack",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         }
-      ]
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Cavalry",
-      "codeTerm": "Cavalry",
+      "term": "Mithril",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 51,
+      "sectionCount": 12,
+      "examples": [
+        {
+          "text": "Total Mithril:",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "1,800 Mithril + 1,080 Mythic Gear",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "(10 Mithril + 5 Mythic Gear per piece)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Health",
+      "category": "stats",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 48,
+      "sectionCount": 12,
+      "examples": [
+        {
+          "text": "Hero Health Up",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "are hero-wide buffs that apply to ALL troop types (Hero Health Up, Hero Attack Up, Hero Defense Up)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Enhancement Level 80 → Enhanced Stat = 2,440 Health",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Cavalry",
       "category": "troop_types",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Mounted troops",
+      "categoryName": "Troop Types",
+      "occurrences": 41,
+      "sectionCount": 10,
       "examples": [
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 140,
-          "snippet": "- **Gear Naming in Advanced Tools**: Fixed inconsistent gear naming in \"Next Best XP Upgrades\" and \""
+          "text": "Cavalry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 215,
-          "snippet": "- 12 gear pieces across Infantry, Archer, and Cavalry"
+          "text": "Cavalry Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 307,
-          "snippet": "- Fixed Cavalry helmet mapping (Helm \u2192 Armet)"
+          "text": "Cavalry Attack",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         }
-      ]
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Archery",
-      "codeTerm": "Archery",
+      "term": "Forgehammers",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 29,
+      "sectionCount": 11,
+      "examples": [
+        {
+          "text": "Total: 10 Forgehammers",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Total: 10 Forgehammers + 10 Mythic Gears",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Using test data: 400 Forgehammers, 171,930 Total XP (161,930 in gear + 10,000 in bag)",
+          "source": "src/components/HowItWorks.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Archery",
       "category": "troop_types",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Ranged troops",
+      "categoryName": "Troop Types",
+      "occurrences": 27,
+      "sectionCount": 8,
       "examples": [
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 308,
-          "snippet": "- Fixed Archery helmet mapping (Helm \u2192 Faceplate)"
+          "text": "Archery Attack",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "tests/unit/calculator.test.ts",
-          "line": 260,
-          "snippet": "Archery_Health: 0.7,"
+          "text": "Archery Defense",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         },
         {
-          "file": "tests/unit/calculator.test.ts",
-          "line": 261,
-          "snippet": "Archery_Lethality: 1.8,"
+          "text": "Archery Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
         }
-      ]
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Siege",
-      "codeTerm": null,
+      "term": "Lethality",
+      "category": "stats",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 26,
+      "sectionCount": 10,
+      "examples": [
+        {
+          "text": "If equal → uses piece position (Infantry→Cavalry→Archery, Health→Lethality)",
+          "source": "src/components/HowItWorks.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Example: Infantry Health at 1000 stat (weight 1.2×) beats Cavalry Lethality at 1500 stat (weight 0.8×)",
+          "source": "src/components/HowItWorks.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Archery Lethality:",
+          "source": "src/components/WeightsGuide.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Attack",
+      "category": "stats",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 19,
+      "sectionCount": 4,
+      "examples": [
+        {
+          "text": "Archery Attack",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "(troop-specific) alternate between Attack and Defense.",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "are hero-wide buffs that apply to ALL troop types (Hero Health Up, Hero Attack Up, Hero Defense Up)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Hero Gear",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 19,
+      "sectionCount": 5,
+      "examples": [
+        {
+          "text": "Hero Gear",
+          "source": "src/components/input/HeroManager.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Hero gear is one of the most impactful investments in Kingshot. It shapes your account progression, demands rare resourc...",
+          "source": "content/snippets/landing-intro.md",
+          "type": "content"
+        },
+        {
+          "text": "This optimizer aims to push the boundaries of hero gear strategy and help you make smarter investment decisions backed b...",
+          "source": "content/snippets/landing-intro.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Defense",
+      "category": "stats",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 16,
+      "sectionCount": 4,
+      "examples": [
+        {
+          "text": "(troop-specific) alternate between Attack and Defense.",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Hero Defense Up",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "are hero-wide buffs that apply to ALL troop types (Hero Health Up, Hero Attack Up, Hero Defense Up)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Epic",
+      "category": "rarity",
+      "categoryName": "Rarity Tiers",
+      "occurrences": 16,
+      "sectionCount": 6,
+      "examples": [
+        {
+          "text": "Epic Bonus",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Epic max level: 80",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Epic Formula",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Gloves",
+      "category": "gear_pieces",
+      "categoryName": "Gear Pieces",
+      "occurrences": 14,
+      "sectionCount": 6,
+      "examples": [
+        {
+          "text": "Cavalry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Infantry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Archery Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Forgehammer",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 11,
+      "sectionCount": 8,
+      "examples": [
+        {
+          "text": "Forgehammer (Mastery) Costs (Levels 0-20)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Cost: 1 Forgehammer + 1 Mythic Gear per level",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Cost: 1 Forgehammer per level",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Enhancement XP",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 9,
+      "sectionCount": 6,
+      "examples": [
+        {
+          "text": "Enhancement XP Costs (Levels 0-200)",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Always prioritize enhancement XP before investing heavily in mastery. Mastery multiplies a base value—make that base lar...",
+          "source": "src/components/HowItWorksHammer.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Higher mastery pieces get more benefit from enhancement XP.",
+          "source": "src/components/HowItWorksXP.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Kingdom",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 8,
+      "sectionCount": 5,
+      "examples": [
+        {
+          "text": "Kingdom of Power (KvK)",
+          "source": "src/components/optimizer/ResultsPanel.vue",
+          "type": "vue"
+        },
+        {
+          "text": "If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, our legal basis for collecting a...",
+          "source": "content/site/privacy-policy.md",
+          "type": "content"
+        },
+        {
+          "text": "**Enhancement XP** can be spent just about anytime, except for early game where some Hall of Governor's tasks may reward...",
+          "source": "content/site/faq.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Charms",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 5,
+      "sectionCount": 3,
+      "examples": [
+        {
+          "text": "(6 charms)",
+          "source": "src/components/charms/CharmsTool.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Governor Gear and Charms Optimization",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        },
+        {
+          "text": "A new optimization tool specifically for **Governor Gear and Charms** is in development. While Hero Gear focuses on troo...",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "KvK",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 5,
+      "sectionCount": 3,
+      "examples": [
+        {
+          "text": "KvK / Strongest Governor Event Points",
+          "source": "src/components/optimizer/ResultsPanel.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Kingdom of Power (KvK)",
+          "source": "src/components/optimizer/ResultsPanel.vue",
+          "type": "vue"
+        },
+        {
+          "text": "**Forgehammers and Mithril** should be saved for Kingdom of Power, AKA KvK Prep, (or similar events) since these reward ...",
+          "source": "content/site/faq.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Boots",
+      "category": "gear_pieces",
+      "categoryName": "Gear Pieces",
+      "occurrences": 4,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "Cavalry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Infantry Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Archery Gloves & Boots",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Chest",
+      "category": "gear_pieces",
+      "categoryName": "Gear Pieces",
+      "occurrences": 4,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "Cavalry Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Infantry Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Archery Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Common",
+      "category": "rarity",
+      "categoryName": "Rarity Tiers",
+      "occurrences": 4,
+      "sectionCount": 4,
+      "examples": [
+        {
+          "text": "Common pattern: E139 → E160",
+          "source": "src/components/HowItWorks.vue",
+          "type": "vue"
+        },
+        {
+          "text": "**Common pattern: E139 -> E160** - Skips E140 entirely, saving 20 mithril + 5 mythics",
+          "source": "content/site/how-it-works.md",
+          "type": "content"
+        },
+        {
+          "text": "<!-- formation-context --> **Formation Context:** These profiles are designed for the common 50:20:30 (Infantry:Cavalry:...",
+          "source": "content/site/build-profiles.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Damage",
+      "category": "stats",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 4,
+      "sectionCount": 2,
+      "examples": [
+        {
+          "text": "Prioritizes Infantry survivability (tanking PvE content) and Archery damage output (primary DPS). Cavalry receives minim...",
+          "source": "src/components/WeightsGuide.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Infantry Lethality increases to 1.1 because Alcar skills enable meaningful Infantry damage contribution. Balanced lethal...",
+          "source": "src/components/WeightsGuide.vue",
+          "type": "vue"
+        },
+        {
+          "text": "**Philosophy:** Prioritizes Infantry survivability (tanking PvE content) and Archery damage output (primary DPS). Cavalr...",
+          "source": "content/site/build-profiles.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Governor Gear",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 4,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "Governor Gear and Charms Optimization",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        },
+        {
+          "text": "A new optimization tool specifically for **Governor Gear and Charms** is in development. While Hero Gear focuses on troo...",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        },
+        {
+          "text": "Governor gear enhancement recommendations",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Helmet",
+      "category": "gear_pieces",
+      "categoryName": "Gear Pieces",
+      "occurrences": 4,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "Cavalry Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Infantry Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Archery Helmet & Chest",
+          "source": "src/components/CostTables.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Rare",
+      "category": "rarity",
+      "categoryName": "Rarity Tiers",
+      "occurrences": 4,
+      "sectionCount": 2,
+      "examples": [
+        {
+          "text": "Hero gear is one of the most impactful investments in Kingshot. It shapes your account progression, demands rare resourc...",
+          "source": "content/snippets/landing-intro.md",
+          "type": "content"
+        },
+        {
+          "text": "Hero gear is one of the most important investment topics in Kingshot. It has a massive impact on your account progressio...",
+          "source": "content/tools/hero-gear/basics.md",
+          "type": "content"
+        },
+        {
+          "text": "Once you have orange (mythic) gear and have reached town center level 20, you can increase gear stats through mastery fo...",
+          "source": "content/tools/hero-gear/basics.md",
+          "type": "content"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Archer",
       "category": "troop_types",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Siege equipment/troops",
-      "examples": []
-    },
-    {
-      "websiteTerm": "Food",
-      "codeTerm": "Bread",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Basic resource - game uses both terms"
-    },
-    {
-      "websiteTerm": "Wood",
-      "codeTerm": "Wood",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Basic resource"
-    },
-    {
-      "websiteTerm": "Stone",
-      "codeTerm": "Stone",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Basic resource"
-    },
-    {
-      "websiteTerm": "Iron",
-      "codeTerm": "Iron",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Basic resource"
-    },
-    {
-      "websiteTerm": "Gold",
-      "codeTerm": "Gold",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "In-game currency"
-    },
-    {
-      "websiteTerm": "Gems",
-      "codeTerm": "Gem",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Premium currency - singular vs plural"
-    },
-    {
-      "websiteTerm": "Truegold",
-      "codeTerm": "Truegold",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Special resource for Governor Gear"
-    },
-    {
-      "websiteTerm": "VIP",
-      "codeTerm": "VIP XP",
-      "category": "resources",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "VIP points/experience"
-    },
-    {
-      "websiteTerm": "Satin",
-      "codeTerm": "Satin",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Governor Gear crafting material"
-    },
-    {
-      "websiteTerm": "Gilded Threads",
-      "codeTerm": "Gilded Threads",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Governor Gear crafting material"
-    },
-    {
-      "websiteTerm": "Artisan's Vision",
-      "codeTerm": "Artisan Vision",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Governor Gear crafting material - apostrophe variation"
-    },
-    {
-      "websiteTerm": "Charm Design",
-      "codeTerm": "Charm Design",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Charm crafting material"
-    },
-    {
-      "websiteTerm": "Charm Guide",
-      "codeTerm": "Charm Guide",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Charm crafting material"
-    },
-    {
-      "websiteTerm": "Forgehammers",
-      "codeTerm": "Forgehammer",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Hero gear upgrade material - singular vs plural"
-    },
-    {
-      "websiteTerm": "Mithril",
-      "codeTerm": "Mithril",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Hero gear upgrade material"
-    },
-    {
-      "websiteTerm": "Enhancement XP",
-      "codeTerm": "Enhancement XP Part",
-      "category": "materials",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Hero gear experience - short vs full name"
-    },
-    {
-      "websiteTerm": "Helmet",
-      "codeTerm": null,
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Head armor piece"
-    },
-    {
-      "websiteTerm": "Chest",
-      "codeTerm": null,
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Body armor piece"
-    },
-    {
-      "websiteTerm": "Weapon",
-      "codeTerm": null,
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Main weapon"
-    },
-    {
-      "websiteTerm": "Gloves",
-      "codeTerm": "Infantry Gloves",
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Hand armor - generic vs troop-specific",
+      "categoryName": "Troop Types",
+      "occurrences": 3,
+      "sectionCount": 1,
       "examples": [
         {
-          "file": "content/site/how-it-works.md",
-          "line": 159,
-          "snippet": "**Example: Infantry Gloves (Mythic, Health)**"
+          "text": "**Build one set of each type of hero gear:** infantry, archer, and cavalry. You will transfer this to your strongest her...",
+          "source": "content/tools/hero-gear/basics.md",
+          "type": "content"
         },
         {
-          "file": "content/site/how-it-works.md",
-          "line": 393,
-          "snippet": "Example: Infantry Gloves (weight 1.2, +20% Infantry Attack) vs Cavalry Armet (weight 0.8, +20% Caval"
-        },
-        {
-          "file": "content/site/how-it-works.md",
-          "line": 399,
-          "snippet": "This ensures Infantry Gloves is upgraded before Infantry Helm when both have equal value, without ar"
+          "text": "**Prioritize improving the gear with stats that will have the most value** based on the best understanding of combat mec...",
+          "source": "content/tools/hero-gear/basics.md",
+          "type": "content"
         }
-      ]
-    },
-    {
-      "websiteTerm": "Legs",
-      "codeTerm": null,
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
+      ],
       "includeV1": "undecided",
-      "context": "Leg armor piece"
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Boots",
-      "codeTerm": null,
-      "category": "gear_pieces",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
+      "term": "Charm",
+      "category": "game_features",
+      "categoryName": "Game Features",
+      "occurrences": 3,
+      "sectionCount": 2,
+      "examples": [
+        {
+          "text": "Charm",
+          "source": "src/components/charms/CharmsTool.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Optimize charm slot allocation across different charm types",
+          "source": "content/site/in-development.md",
+          "type": "content"
+        }
+      ],
       "includeV1": "undecided",
-      "context": "Foot armor piece"
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Attack",
-      "codeTerm": "Infantry Attack",
+      "term": "Satin",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 3,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "Satin",
+          "source": "src/components/governor-gear/ExchangeSimulator.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Satin:",
+          "source": "src/components/governor-gear/ExchangeSimulator.vue",
+          "type": "vue"
+        },
+        {
+          "text": "Satin/Thread Swap",
+          "source": "src/components/governor-gear/ExchangeSimulator.vue",
+          "type": "vue"
+        }
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
+    },
+    {
+      "term": "Load",
       "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Offensive stat",
+      "categoryName": "Stats & Attributes",
+      "occurrences": 2,
+      "sectionCount": 2,
       "examples": [
         {
-          "file": "content/site/how-it-works.md",
-          "line": 393,
-          "snippet": "Example: Infantry Gloves (weight 1.2, +20% Infantry Attack) vs Cavalry Armet (weight 0.8, +20% Caval"
+          "text": "Failed to load release notes",
+          "source": "src/components/DevNotes.vue",
+          "type": "vue"
         },
         {
-          "file": "docs/archive/analysis/RED_GEAR_PROGRESSION_VALIDATION.md",
-          "line": 65,
-          "snippet": "- Pieces that give expedition bonuses (Infantry Attack/Defense, Archer Attack, Cavalry Attack) prior"
-        },
-        {
-          "file": "docs/archive/analysis/RED_GEAR_PROGRESSION_VALIDATION.md",
-          "line": 92,
-          "snippet": "- Infantry Gloves R119 \u2192 R120 should have VERY HIGH value (unlocks +20% Infantry Attack expedition b"
+          "text": "Save and load different gear configurations with named presets. Perfect for players with multiple accounts or farm chara...",
+          "source": "content/site/in-development.md",
+          "type": "content"
         }
-      ]
-    },
-    {
-      "websiteTerm": "Defense",
-      "codeTerm": null,
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
+      ],
       "includeV1": "undecided",
-      "context": "Defensive stat"
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Health",
-      "codeTerm": "Infantry Health",
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "HP stat",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 446,
-          "snippet": "- **Abbreviated Labels**: Shorter stat names for mobile (\"Inf HP\" instead of \"Infantry Health\")"
-        },
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 22,
-          "snippet": "| Infantry Health | 1.5 |"
-        },
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 41,
-          "snippet": "| Infantry Health | 1.5 |"
-        }
-      ]
-    },
-    {
-      "websiteTerm": "Damage",
-      "codeTerm": null,
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Damage dealt"
-    },
-    {
-      "websiteTerm": "Lethality",
-      "codeTerm": "Cavalry Lethality",
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Critical/killing power",
-      "examples": [
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 25,
-          "snippet": "| Cavalry Lethality | 0.4 |"
-        },
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 44,
-          "snippet": "| Cavalry Lethality | 1.2 |"
-        },
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 63,
-          "snippet": "| Cavalry Lethality | 1.2 |"
-        }
-      ]
-    },
-    {
-      "websiteTerm": "March Speed",
-      "codeTerm": null,
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Troop movement speed"
-    },
-    {
-      "websiteTerm": "Load",
-      "codeTerm": null,
-      "category": "stats",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource carrying capacity"
-    },
-    {
-      "websiteTerm": "Conquest Skill",
-      "codeTerm": "Mythic Conquest Skill Manual",
-      "category": "hero_skills",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "PvP combat skill"
-    },
-    {
-      "websiteTerm": "Expedition Skill",
-      "codeTerm": "Mythic Expedition Skill Manual",
-      "category": "hero_skills",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "PvE/exploration skill"
-    },
-    {
-      "websiteTerm": "Hero Shard",
-      "codeTerm": "Hero Shard",
-      "category": "hero_skills",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Hero unlock/upgrade fragment"
-    },
-    {
-      "websiteTerm": "Governor Gear",
-      "codeTerm": "Governor Gear",
+      "term": "Alliance",
       "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Main gear system",
+      "categoryName": "Game Features",
+      "occurrences": 1,
+      "sectionCount": 1,
       "examples": [
         {
-          "file": "claude/claude.md",
-          "line": 319,
-          "snippet": "| Governor Gear | **No** | Ready but not released |"
-        },
-        {
-          "file": "content/site/in-development.md",
-          "line": 39,
-          "snippet": "## Governor Gear and Charms Optimization"
-        },
-        {
-          "file": "content/site/in-development.md",
-          "line": 41,
-          "snippet": "A new optimization tool specifically for **Governor Gear and Charms** is in development. While Hero "
+          "text": "[Digital Advertising Alliance](https://www.aboutads.info/choices/)",
+          "source": "content/site/privacy-policy.md",
+          "type": "content"
         }
-      ]
+      ],
+      "includeV1": "undecided",
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": "Hero Gear",
-      "codeTerm": "Hero Gear",
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Hero equipment system",
+      "term": "Gilded Threads",
+      "category": "gear_materials",
+      "categoryName": "Gear Materials",
+      "occurrences": 1,
+      "sectionCount": 1,
       "examples": [
         {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 7,
-          "snippet": "- **Save Your Gear Configuration**: Click \"Save Preset\" to save your current gear levels and mastery"
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 432,
-          "snippet": "- **Tool Switcher**: Easily switch between Hero Gear optimizer and future tools"
-        },
-        {
-          "file": "claude/claude.md",
-          "line": 318,
-          "snippet": "| Hero Gear | Yes | Original optimizer |"
+          "text": "Gilded Threads",
+          "source": "src/components/governor-gear/ExchangeSimulator.vue",
+          "type": "vue"
         }
-      ]
-    },
-    {
-      "websiteTerm": "Charms",
-      "codeTerm": null,
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Gear enhancement items"
-    },
-    {
-      "websiteTerm": "Academy",
-      "codeTerm": "Academy Lv",
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Research/tech tree"
-    },
-    {
-      "websiteTerm": "Alliance",
-      "codeTerm": null,
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Guild/clan system"
-    },
-    {
-      "websiteTerm": "Kingdom",
-      "codeTerm": null,
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Server/realm"
-    },
-    {
-      "websiteTerm": "KvK",
-      "codeTerm": null,
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Kingdom vs Kingdom event"
-    },
-    {
-      "websiteTerm": "Strongest Governor",
-      "codeTerm": "Strongest Governor",
-      "category": "game_features",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Competition event",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 30,
-          "snippet": "- **KvK / Strongest Governor Points**: See how many event points your upgrades will earn during King"
-        },
-        {
-          "file": "docs/OPTIMIZATION_MODES.md",
-          "line": 139,
-          "snippet": "**Goal**: Maximize KvK/Strongest Governor event points per resource spent"
-        },
-        {
-          "file": "public/RELEASE_NOTES.md",
-          "line": 30,
-          "snippet": "- **KvK / Strongest Governor Points**: See how many event points your upgrades will earn during King"
-        }
-      ]
-    },
-    {
-      "websiteTerm": "Common",
-      "codeTerm": null,
-      "category": "rarity_tiers",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Lowest rarity"
-    },
-    {
-      "websiteTerm": "Rare",
-      "codeTerm": null,
-      "category": "rarity_tiers",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Green rarity"
-    },
-    {
-      "websiteTerm": "Epic",
-      "codeTerm": null,
-      "category": "rarity_tiers",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Purple rarity"
-    },
-    {
-      "websiteTerm": "Mythic",
-      "codeTerm": "Mythic Gear",
-      "category": "rarity_tiers",
-      "websiteSource": "glossary.json",
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Orange/gold rarity",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 119,
-          "snippet": "- \"Mythic Gears\" \u2192 \"Mythic Gears (Orange)\""
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 138,
-          "snippet": "- **Mythic Gear Cost Display**: Fixed an issue where mythic gear costs for mastery upgrades (M11-M20"
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 146,
-          "snippet": "- Mithril Change and Mythic Gear Change columns"
-        }
-      ]
-    },
-    {
-      "websiteTerm": "Legendary",
-      "codeTerm": null,
-      "category": "rarity_tiers",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Highest rarity"
-    },
-    {
-      "websiteTerm": "Upgrade",
-      "codeTerm": null,
-      "category": "ui_terms",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Improve/level up"
-    },
-    {
-      "websiteTerm": "Enhance",
-      "codeTerm": null,
-      "category": "ui_terms",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Add bonuses"
-    },
-    {
-      "websiteTerm": "Craft",
-      "codeTerm": null,
-      "category": "ui_terms",
-      "websiteSource": "glossary.json",
-      "codeSource": null,
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Create items"
-    },
-    {
-      "websiteTerm": "Speedup",
-      "codeTerm": "General Speedup",
-      "category": "ui_terms",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Reduce timer"
-    },
-    {
-      "websiteTerm": "Stamina",
-      "codeTerm": "Governor stamina",
-      "category": "ui_terms",
-      "websiteSource": "glossary.json",
-      "codeSource": "data-collection",
-      "hasConflict": true,
-      "includeV1": "undecided",
-      "context": "Energy for actions"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Event Points",
-      "category": "game_mechanics",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Points earned from upgrades for events",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 28,
-          "snippet": "### Event Points Calculator"
-        },
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_PLAN.md",
-          "line": 56,
-          "snippet": "### Event Points"
-        },
-        {
-          "file": "docs/future-tools/06_troop_training_event_optimizer.md",
-          "line": 20,
-          "snippet": "### 2. Event Points Maximization"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Red Gear",
-      "category": "gear_tiers",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Red tier gear",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 184,
-          "snippet": "- **Full Red Gear Support**: Handles Mastery levels 11-20, Ascension, Imbuement milestones, and all "
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 207,
-          "snippet": "- **Cost Tables**: XP costs, Forgehammer requirements, Red Gear costs all in one place"
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 208,
-          "snippet": "- **Red Gear Guide**: Detailed explanation of Ascension and Imbuement mechanics"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Stat Gain",
-      "category": "stats",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Stats gained from upgrades",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 49,
-          "snippet": "- **Fixed Stat Gain Note**: The note explaining Stat Gain now correctly states it shows \"relative im"
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 353,
-          "snippet": "**Raw Stat Gain Display**"
-        },
-        {
-          "file": "content/tools/hero-gear/how-it-works.md",
-          "line": 26,
-          "snippet": "### Raw Stat Gain (Unoptimized)"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Troop Type",
-      "category": "troop_types",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Infantry/Cavalry/Archery/Siege",
-      "examples": [
-        {
-          "file": "docs/GOV_GEAR_WEIGHT_ASSESSMENT.md",
-          "line": 142,
-          "snippet": "### Option 1: SIMPLIFY to Troop Type Focus (Recommended)"
-        },
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_REVISED_ANALYSIS.md",
-          "line": 13,
-          "snippet": "2. **Troop Types** - Both gear and charms are divided by troop type (Infantry/Cavalry/Archery)"
-        },
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_REVISED_ANALYSIS.md",
-          "line": 59,
-          "snippet": "### 3. Ignored Troop Types for Charms"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Piece Bonus",
-      "category": "gear_pieces",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Bonus from individual gear piece",
-      "examples": [
-        {
-          "file": "src/components/governor-gear/GovernorGearTool.vue",
-          "line": 388,
-          "snippet": "<!-- 3-Piece Bonus -->"
-        },
-        {
-          "file": "src/components/governor-gear/GovernorGearTool.vue",
-          "line": 396,
-          "snippet": "<span class=\"text-sm font-medium text-gray-700 dark:text-gray-300\">3-Piece Bonus</span>"
-        },
-        {
-          "file": "src/components/governor-gear/GovernorGearTool.vue",
-          "line": 412,
-          "snippet": "<!-- 6-Piece Bonus -->"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Set Bonus",
-      "category": "gear_pieces",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Bonus from complete gear set",
-      "examples": [
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_REVISED_ANALYSIS.md",
-          "line": 12,
-          "snippet": "1. **Set Bonuses** - Gear has 3-piece and 6-piece set bonuses that incentivize keeping pieces at the"
-        },
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_REVISED_ANALYSIS.md",
-          "line": 41,
-          "snippet": "### 2. Ignored Set Bonuses (CRITICAL)"
-        },
-        {
-          "file": "docs/GOVERNOR_GEAR_CHARMS_REVISED_ANALYSIS.md",
-          "line": 94,
-          "snippet": "### Governor Gear: Set Bonus Trade-off"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Early Game",
-      "category": "progression",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Early game progression phase",
-      "examples": [
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 194,
-          "snippet": "- **Early Game Growth**: Balanced approach for players building their account"
-        },
-        {
-          "file": "dist/RELEASE_NOTES.md",
-          "line": 195,
-          "snippet": "- **Early Game Combat**: Prioritizes combat effectiveness over pure stats"
-        },
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 16,
-          "snippet": "## Early Game Growth (Default)"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Bear Hunt",
-      "category": "game_features",
-      "websiteSource": null,
-      "codeSource": "gear_optimizer",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Bear hunting event/activity",
-      "examples": [
-        {
-          "file": "content/tools/hero-gear/build-profiles.md",
-          "line": 29,
-          "snippet": "**Best for:** Vikings, Bear Hunt, Mystic Trial, and general expedition progression."
-        },
-        {
-          "file": "content/site/build-profiles.md",
-          "line": 24,
-          "snippet": "**Best for:** Vikings, Bear Hunt, Mystic Trial, and general expedition progression."
-        },
-        {
-          "file": "docs/future-tools/02_resource_allocation_planner.md",
-          "line": 21,
-          "snippet": "- **Bear Hunt**: Optimal difficulty level for rewards"
-        }
-      ]
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "General Speedup",
-      "category": "speedups",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Universal speedup for any action"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Construction Speedup",
-      "category": "speedups",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Speedup for building"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Research Speedup",
-      "category": "speedups",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Speedup for research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Training Speedup",
-      "category": "speedups",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Speedup for troop training"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Healing Speedup",
-      "category": "speedups",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Speedup for healing troops"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Lucky Hero Gear Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Chest containing hero gear"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Governor Gear Material Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Chest containing governor gear materials"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Truegold Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Chest containing truegold"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Resource Supply Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Chest containing resources"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Custom Resource Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Chest with selectable resources"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Gear Chest",
-      "category": "chests",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Generic gear chest"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Gold Key",
-      "category": "keys",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Key for premium chests"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Silver Key",
-      "category": "keys",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Key for regular chests"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Lucky Chip",
-      "category": "keys",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Token for lucky draws"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Skill Manual",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Manual for upgrading hero skills"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Growth Manual",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Manual for hero growth"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Mystery Badge",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Random badge item"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Promotion Medallion",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Item for promoting heroes"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Nutrient Potion",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Potion item"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Taming Mark",
-      "category": "pets",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Pet taming item"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Pet Food",
-      "category": "pets",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Food for pets"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Pet Energy",
-      "category": "pets",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Energy for pet actions"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Teleporter",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Item to teleport on map"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Counter-recon",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Anti-scouting protection"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Quick March",
-      "category": "buffs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "March speed buff"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Deployment Capacity Boost",
-      "category": "buffs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Troop deployment buff"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "True Pack",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Pack analysis metric"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Fast Development Pack",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Development acceleration pack"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Ultra Value Monthly Card",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Monthly subscription pack"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Benefits Card",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Benefits subscription card"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Weekly Deal",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Weekly special deal"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Daily Deals",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Daily rotating deals"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Hero Rally",
-      "category": "packs",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Hero-focused pack series"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Regimental Expansion",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Academy research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Special Defensive",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Academy research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Iron Output",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource production research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Wood Output",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource production research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Bread Output",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource production research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Stone Output",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource production research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Wood Gathering",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource gathering research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Iron Mining",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource gathering research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Stone Mining",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource gathering research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Food Foraging",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Resource gathering research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Survival Techniques",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Academy research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Reprisal Tactics",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Combat research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Precision Targeting",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Combat research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Picket Lines",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Defense research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Lance Upgrade",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Cavalry research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Defensive Formations",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Defense research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Close Combat",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Infantry research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Camp Expansion",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Capacity research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Assault Techniques",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Combat research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Ward Expansion",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Hospital capacity research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Trainer Tools",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Training research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Shield Upgrade",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Infantry research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Targeted Sniping",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Archery research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Bulwark Formations",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Defense research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Tooling Up",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Construction research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Weapons Prep",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Equipment research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Tool Enhancement",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Equipment research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Troop Deployment",
-      "category": "tech_tree",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Troop capacity research"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "All Troops",
-      "category": "troop_types",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
+      ],
       "includeV1": "undecided",
-      "context": "All troop types modifier"
+      "officialTranslation": "",
+      "notes": ""
     },
     {
-      "websiteTerm": null,
-      "codeTerm": "Hero XP",
+      "term": "Gold",
       "category": "resources",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
+      "categoryName": "Resources",
+      "occurrences": 1,
+      "sectionCount": 1,
+      "examples": [
+        {
+          "text": "7. Will reforging my gold gear destroy it?",
+          "source": "content/site/faq.md",
+          "type": "content"
+        }
+      ],
       "includeV1": "undecided",
-      "context": "Experience for leveling heroes"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Construction Contract",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Item for additional construction queue"
-    },
-    {
-      "websiteTerm": null,
-      "codeTerm": "Mythic General Decoration Component",
-      "category": "items",
-      "websiteSource": null,
-      "codeSource": "data-collection",
-      "hasConflict": false,
-      "includeV1": "undecided",
-      "context": "Component for decoration crafting"
+      "officialTranslation": "",
+      "notes": ""
     }
   ]
 }
