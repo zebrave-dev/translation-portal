@@ -120,13 +120,29 @@ async function init() {
         return;
     }
 
-    // Load glossary
+    // Load glossary (try API first, fallback to static file)
     try {
-        const response = await fetch('/data/glossary.json');
-        glossary = await response.json();
-        console.log(`Loaded glossary with ${Object.keys(glossary.categories).length} categories`);
+        const apiResponse = await fetch('/api/glossary');
+        if (apiResponse.ok) {
+            const apiData = await apiResponse.json();
+            if (apiData.categories && Object.keys(apiData.categories).length > 0) {
+                glossary = apiData;
+                console.log(`Loaded glossary from API with ${Object.keys(glossary.categories).length} categories`);
+            }
+        }
     } catch (e) {
-        console.error('Failed to load glossary:', e);
+        console.log('API glossary not available, trying static file');
+    }
+
+    // Fallback to static file
+    if (!glossary) {
+        try {
+            const response = await fetch('/data/glossary.json');
+            glossary = await response.json();
+            console.log(`Loaded glossary from static file with ${Object.keys(glossary.categories).length} categories`);
+        } catch (e) {
+            console.error('Failed to load glossary:', e);
+        }
     }
 
     // Populate language dropdown with status
@@ -191,10 +207,26 @@ function renderCurrentView() {
 // Load translations for a language
 async function loadTranslations(lang) {
     try {
+        // Try API first (KV storage)
+        const apiResponse = await fetch(`/api/translations/${lang}`);
+        if (apiResponse.ok) {
+            const apiData = await apiResponse.json();
+            if (apiData && Object.keys(apiData).length > 1) { // More than just _meta
+                translations = apiData;
+                console.log(`Loaded ${Object.keys(translations).length} translations for ${lang} from API`);
+                return;
+            }
+        }
+    } catch (e) {
+        console.log(`API not available, falling back to static files`);
+    }
+
+    // Fallback to static files
+    try {
         const response = await fetch(`/data/translations/${lang}.json`);
         if (response.ok) {
             translations = await response.json();
-            console.log(`Loaded ${Object.keys(translations).length} translations for ${lang}`);
+            console.log(`Loaded ${Object.keys(translations).length} translations for ${lang} from static file`);
         } else {
             translations = {};
             console.log(`No translations found for ${lang}`);
@@ -205,25 +237,51 @@ async function loadTranslations(lang) {
     }
 }
 
-// Save translations
+// Save translations to server
+async function saveToServer() {
+    try {
+        const response = await fetch(`/api/translations/${currentLanguage}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(translations)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Saved to server:', result);
+            return true;
+        } else {
+            console.error('Failed to save to server:', response.status);
+            return false;
+        }
+    } catch (e) {
+        console.error('Error saving to server:', e);
+        return false;
+    }
+}
+
+// Save translations (to server and optionally download)
 async function saveTranslations() {
-    // In a real app, this would POST to a server
-    // For now, we'll just log and show instructions
     const data = JSON.stringify(translations, null, 2);
-    console.log('Translations to save:', data);
 
-    // Create downloadable file
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${currentLanguage}.json`;
-
-    // For local development, save to localStorage as backup
+    // Save to localStorage as backup
     localStorage.setItem(`translations_${currentLanguage}`, data);
 
-    showToast('Translation saved! Download started.', 'success');
-    a.click();
+    // Try to save to server
+    const savedToServer = await saveToServer();
+
+    if (savedToServer) {
+        showToast('Translations saved to server!', 'success');
+    } else {
+        // Fallback: offer download
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentLanguage}.json`;
+        a.click();
+        showToast('Server unavailable. Download started as backup.', 'warning');
+    }
 }
 
 // Render sections in sidebar
@@ -451,7 +509,7 @@ function updateGlossaryDraft(term, value) {
     translations.glossary[term].status = translations.glossary[term].status || 'draft';
 }
 
-function saveGlossaryDraft(term) {
+async function saveGlossaryDraft(term) {
     const inputId = `glossary-input-${term.replace(/[^a-zA-Z0-9]/g, '_')}`;
     const input = document.getElementById(inputId);
     if (!input || !input.value.trim()) {
@@ -472,7 +530,10 @@ function saveGlossaryDraft(term) {
     translations.glossary[term].timestamp = new Date().toISOString();
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
-    showToast('Glossary term saved', 'success');
+
+    // Save to server
+    const saved = await saveToServer();
+    showToast(saved ? 'Glossary term saved!' : 'Saved locally', 'success');
 
     // Update card status
     const card = document.querySelector(`.string-card[data-term="${term}"]`);
@@ -483,7 +544,7 @@ function saveGlossaryDraft(term) {
     }
 }
 
-function approveGlossary(term) {
+async function approveGlossary(term) {
     const inputId = `glossary-input-${term.replace(/[^a-zA-Z0-9]/g, '_')}`;
     const input = document.getElementById(inputId);
     if (!input || !input.value.trim()) {
@@ -505,7 +566,10 @@ function approveGlossary(term) {
     translations.glossary[term].official_game_term = true;
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
-    showToast('Glossary term approved!', 'success');
+
+    // Save to server
+    const saved = await saveToServer();
+    showToast(saved ? 'Glossary term approved!' : 'Approved (saved locally)', 'success');
 
     // Update card status
     const card = document.querySelector(`.string-card[data-term="${term}"]`);
@@ -642,7 +706,7 @@ function updateDraft(id, value) {
     translations[id].status = translations[id].status || 'draft';
 }
 
-function saveDraft(id) {
+async function saveDraft(id) {
     const input = document.getElementById(`input-${id}`);
     if (!input.value.trim()) {
         showToast('Please enter a translation first', 'error');
@@ -658,11 +722,14 @@ function saveDraft(id) {
     translations[id].translator = translatorName.value || 'Anonymous';
     translations[id].timestamp = new Date().toISOString();
 
-    // Save to localStorage
+    // Save to localStorage as backup
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
 
+    // Save to server
+    const saved = await saveToServer();
+
     updateProgress();
-    showToast('Draft saved locally', 'success');
+    showToast(saved ? 'Draft saved!' : 'Draft saved locally', 'success');
 
     // Update card status
     const card = document.querySelector(`.string-card[data-id="${id}"]`);
@@ -673,7 +740,7 @@ function saveDraft(id) {
     }
 }
 
-function submitTranslation(id) {
+async function submitTranslation(id) {
     const input = document.getElementById(`input-${id}`);
     if (!input.value.trim()) {
         showToast('Please enter a translation first', 'error');
@@ -691,8 +758,11 @@ function submitTranslation(id) {
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
 
+    // Save to server
+    const saved = await saveToServer();
+
     updateProgress();
-    showToast('Translation submitted for review', 'success');
+    showToast(saved ? 'Translation submitted!' : 'Submitted (saved locally)', 'success');
 
     // Update card
     const card = document.querySelector(`.string-card[data-id="${id}"]`);
@@ -703,7 +773,7 @@ function submitTranslation(id) {
     }
 }
 
-function approveTranslation(id) {
+async function approveTranslation(id) {
     const input = document.getElementById(`input-${id}`);
     if (!input.value.trim()) {
         showToast('Please enter a translation first', 'error');
@@ -723,8 +793,11 @@ function approveTranslation(id) {
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
 
+    // Save to server
+    const saved = await saveToServer();
+
     updateProgress();
-    showToast('Translation approved!', 'success');
+    showToast(saved ? 'Translation approved!' : 'Approved (saved locally)', 'success');
 
     // Update card
     const card = document.querySelector(`.string-card[data-id="${id}"]`);

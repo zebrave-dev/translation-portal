@@ -14,29 +14,54 @@ translation-portal/
 │       ├── es.json                   # Spanish (started)
 │       ├── pt.json                   # Portuguese (AI pre-translated)
 │       └── fr.json                   # French (started)
+├── functions/
+│   └── api/                          # Cloudflare Pages Functions (API endpoints)
+│       ├── translations/[lang].js    # GET/POST translations by language
+│       ├── glossary.js               # GET/POST curated glossary
+│       └── glossary-curation.js      # GET/POST curation decisions
 ├── scripts/
 │   ├── extract_strings.py            # Pulls strings from gear_optimizer
 │   ├── export_translations.py        # Pushes translations to app
-│   └── ai_translate.py               # Batch AI pre-translation (Google Translate)
+│   ├── ai_translate.py               # Batch AI pre-translation (Google Translate)
+│   └── build_glossary_curation.py    # Extract game terms from code for curation
 ├── site/
 │   ├── index.html                    # Main translator UI
-│   ├── app.js                        # UI logic
+│   ├── app.js                        # UI logic (uses API for save)
 │   ├── style.css                     # Styling
 │   ├── glossary-curation.html        # Admin tool for glossary decisions
-│   └── data/                         # Deployed data (copy from /data before deploy)
+│   └── data/                         # Static data (fallback when API unavailable)
 │       ├── source-strings.json
 │       ├── glossary.json
 │       ├── translations/
 │       └── glossary-curation-data.json
+├── wrangler.toml                     # Cloudflare configuration
 └── README.md
 ```
 
 ## Deployment
 
 - **Hosting**: Cloudflare Pages at `translation-portal.pages.dev`
+- **Storage**: Cloudflare KV for translations and glossary data
 - **Access Control**: Cloudflare Zero Trust (configured Dec 2025)
 - **SEO**: Blocked via robots.txt and meta tags
-- **Data sync**: Copy `data/` files to `site/data/` before committing for deployment
+- **Static fallback**: Copy `data/` files to `site/data/` for when API is unavailable
+
+### Cloudflare KV Setup
+
+1. Create KV namespace in Cloudflare Dashboard:
+   - Workers & Pages > KV > Create namespace
+   - Name: `TRANSLATIONS`
+
+2. Bind to Pages project:
+   - Pages > translation-portal > Settings > Bindings
+   - Add KV Namespace binding
+   - Variable name: `TRANSLATIONS`
+   - Select your namespace
+
+3. For local development:
+   ```bash
+   wrangler pages dev site --kv TRANSLATIONS
+   ```
 
 ## Key Workflows
 
@@ -87,7 +112,7 @@ Generates:
 - **Filters**: All, Pending, Needs Review, Drafts, Submitted, Approved
 - **Status workflow**: Pending → Draft → Submitted → Approved
 - **AI suggestions**: "Use AI" button copies suggestion to input
-- **Local storage**: Auto-saves drafts locally
+- **Server-side save**: Auto-saves to Cloudflare KV (falls back to localStorage if unavailable)
 
 ### Glossary View
 - **Gaming terms**: Consistent translations for Kingshot-specific terms
@@ -97,9 +122,9 @@ Generates:
 ### Glossary Curation Tool (glossary-curation.html)
 - **Admin only** - Red warning banner, accessible via main UI
 - Admin tool to decide which terms go into v1 glossary
-- Compares website terms vs code-extracted terms
-- Shows usage examples from codebase
-- Export curated glossary as JSON
+- Terms extracted from gear_optimizer code
+- Shows usage examples and occurrence counts
+- "Apply to Glossary" saves directly to server (or downloads if unavailable)
 
 ## Languages
 
@@ -200,8 +225,8 @@ pip3 install deep-translator  # For AI translation script
 
 ## TODO / Next Steps
 
-1. **Finish glossary curation** - Mark all terms as include/later/no
-2. **Korean translation** - Highest priority, has AI suggestions ready
-3. **Portuguese translation** - Second priority after Korean
-4. **Implement server-side save** - Currently uses localStorage + file download
+1. **Configure KV in Cloudflare Dashboard** - Create namespace and bind to Pages project (see KV Setup above)
+2. **Finish glossary curation** - Mark all terms as include/later/no
+3. **Korean translation** - Highest priority, has AI suggestions ready
+4. **Portuguese translation** - Second priority after Korean
 5. **Add sync/diff for source changes** - `--sync` flag exists but not fully implemented

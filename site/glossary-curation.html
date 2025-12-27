@@ -256,8 +256,7 @@
         </p>
         <p style="margin-top: 0.5rem;">
             <strong>Workflow:</strong> Mark terms as Yes/Later/No → Click "Apply to Glossary" →
-            Copy downloaded file to <code>data/glossary.json</code> and <code>site/data/glossary.json</code> →
-            Commit and push. The Gaming Glossary tab in the main UI will then show these terms.
+            The glossary is saved directly to the server. The Gaming Glossary tab in the main UI will show these terms.
         </p>
     </div>
 
@@ -459,23 +458,67 @@
         });
     }
 
-    function saveDecisions() {
-        const saveData = termsData.map(t => ({
-            term: t.term,
-            includeV1: t.includeV1,
-            notes: t.notes
-        }));
-        localStorage.setItem('glossary-curation-decisions', JSON.stringify(saveData));
-        alert('Decisions saved to browser storage!');
+    async function saveDecisions() {
+        const saveData = {
+            decisions: termsData.map(t => ({
+                term: t.term,
+                includeV1: t.includeV1,
+                notes: t.notes
+            }))
+        };
+
+        // Save to localStorage as backup
+        localStorage.setItem('glossary-curation-decisions', JSON.stringify(saveData.decisions));
+
+        // Try to save to server
+        try {
+            const response = await fetch('/api/glossary-curation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(saveData)
+            });
+            if (response.ok) {
+                alert('Decisions saved to server!');
+            } else {
+                alert('Saved to browser storage (server unavailable)');
+            }
+        } catch (e) {
+            console.error('Failed to save to server:', e);
+            alert('Saved to browser storage (server unavailable)');
+        }
     }
 
-    function loadSaved() {
-        const saved = localStorage.getItem('glossary-curation-decisions');
-        if (!saved) {
+    async function loadSaved() {
+        let savedData = null;
+
+        // Try API first
+        try {
+            const response = await fetch('/api/glossary-curation');
+            if (response.ok) {
+                const apiData = await response.json();
+                if (apiData.decisions && apiData.decisions.length > 0) {
+                    savedData = apiData.decisions;
+                    console.log('Loaded decisions from server');
+                }
+            }
+        } catch (e) {
+            console.log('API not available, trying localStorage');
+        }
+
+        // Fallback to localStorage
+        if (!savedData) {
+            const local = localStorage.getItem('glossary-curation-decisions');
+            if (local) {
+                savedData = JSON.parse(local);
+                console.log('Loaded decisions from localStorage');
+            }
+        }
+
+        if (!savedData) {
             alert('No saved decisions found.');
             return;
         }
-        const savedData = JSON.parse(saved);
+
         savedData.forEach(s => {
             const term = termsData.find(t => t.term === s.term);
             if (term) {
@@ -488,7 +531,7 @@
         alert('Loaded saved decisions!');
     }
 
-    function applyToGlossary() {
+    async function applyToGlossary() {
         const included = termsData.filter(t => t.includeV1 === 'yes');
 
         if (included.length === 0) {
@@ -522,6 +565,22 @@
             categories: categoryGroups
         };
 
+        // Try to save to server
+        try {
+            const response = await fetch('/api/glossary', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(glossary)
+            });
+            if (response.ok) {
+                alert(`Glossary saved to server with ${included.length} terms!\n\nThe Gaming Glossary tab will now show these terms.`);
+                return;
+            }
+        } catch (e) {
+            console.error('Failed to save to server:', e);
+        }
+
+        // Fallback: download file
         const blob = new Blob([JSON.stringify(glossary, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -530,7 +589,7 @@
         a.click();
         URL.revokeObjectURL(url);
 
-        alert(`Downloaded glossary.json with ${included.length} terms.\n\nTo apply:\n1. Copy to data/glossary.json\n2. Copy to site/data/glossary.json\n3. Commit and push`);
+        alert(`Server unavailable. Downloaded glossary.json with ${included.length} terms.\n\nTo apply:\n1. Copy to data/glossary.json\n2. Copy to site/data/glossary.json\n3. Commit and push`);
     }
 
     function markAllUndecidedYes() {

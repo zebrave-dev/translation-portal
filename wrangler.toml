@@ -1,0 +1,27 @@
+# Translation Portal - Cloudflare Pages Configuration
+#
+# This file is for local development with wrangler.
+# For production, configure KV bindings in the Cloudflare Dashboard:
+#   Pages > translation-portal > Settings > Bindings
+
+name = "translation-portal"
+compatibility_date = "2024-01-01"
+
+# KV Namespace binding
+# For local development: wrangler pages dev site --kv TRANSLATIONS
+# For production: Create namespace in dashboard and bind to Pages project
+[[kv_namespaces]]
+binding = "TRANSLATIONS"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# To set up KV:
+# 1. Create KV namespace: wrangler kv namespace create TRANSLATIONS
+# 2. Copy the ID from the output
+# 3. Replace REPLACE_WITH_YOUR_KV_NAMESPACE_ID above
+# 4. In Cloudflare Dashboard: Pages > translation-portal > Settings > Bindings
+#    - Add KV Namespace binding
+#    - Variable name: TRANSLATIONS
+#    - KV namespace: Select your namespace
+
+# For local development with KV:
+# wrangler pages dev site --kv TRANSLATIONS
