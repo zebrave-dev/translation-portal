@@ -253,7 +253,11 @@
         <p>
             These terms were extracted from the gear_optimizer codebase. For each term, decide if translators
             need to look up the <strong>official in-game translation</strong> (by checking the Korean/Portuguese game client).
-            Terms marked "Yes" will appear in the translation glossary with a note to verify against the game.
+        </p>
+        <p style="margin-top: 0.5rem;">
+            <strong>Workflow:</strong> Mark terms as Yes/Later/No → Click "Apply to Glossary" →
+            Copy downloaded file to <code>data/glossary.json</code> and <code>site/data/glossary.json</code> →
+            Commit and push. The Gaming Glossary tab in the main UI will then show these terms.
         </p>
     </div>
 
@@ -319,7 +323,7 @@
 
     <div class="actions">
         <button onclick="saveDecisions()">💾 Save Decisions</button>
-        <button class="secondary" onclick="exportGlossary()">📥 Export v1 Glossary</button>
+        <button onclick="applyToGlossary()">🚀 Apply to Glossary</button>
         <button class="secondary" onclick="loadSaved()">📂 Load Saved</button>
         <button class="secondary" onclick="markAllUndecidedYes()">✓ Mark All Undecided as Yes</button>
     </div>
@@ -484,32 +488,49 @@
         alert('Loaded saved decisions!');
     }
 
-    function exportGlossary() {
+    function applyToGlossary() {
         const included = termsData.filter(t => t.includeV1 === 'yes');
+
+        if (included.length === 0) {
+            alert('No terms marked as "Yes". Mark some terms to include first.');
+            return;
+        }
+
+        // Group by category
+        const categoryGroups = {};
+        included.forEach(t => {
+            if (!categoryGroups[t.category]) {
+                categoryGroups[t.category] = {
+                    name: t.categoryName,
+                    terms: []
+                };
+            }
+            categoryGroups[t.category].terms.push({
+                en: t.term,
+                context: categoryNotes[t.category] || "Check in-game for official translation"
+            });
+        });
+
+        // Build glossary.json format (matches what main UI expects)
         const glossary = {
             _meta: {
-                description: "Game terms requiring official in-game translation lookup",
-                exported: new Date().toISOString(),
-                totalTerms: included.length
+                description: "Gaming terms that need consistent translation - look up official in-game translations",
+                note: "These terms should match how the game officially translates them in each language",
+                last_updated: new Date().toISOString().split('T')[0],
+                total_terms: included.length
             },
-            terms: {}
+            categories: categoryGroups
         };
-
-        included.forEach(t => {
-            glossary.terms[t.term] = {
-                category: t.categoryName,
-                lookupNote: categoryNotes[t.category] || "Check in-game for official translation",
-                notes: t.notes || ""
-            };
-        });
 
         const blob = new Blob([JSON.stringify(glossary, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'glossary-v1.json';
+        a.download = 'glossary.json';
         a.click();
         URL.revokeObjectURL(url);
+
+        alert(`Downloaded glossary.json with ${included.length} terms.\n\nTo apply:\n1. Copy to data/glossary.json\n2. Copy to site/data/glossary.json\n3. Commit and push`);
     }
 
     function markAllUndecidedYes() {
