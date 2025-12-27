@@ -22,6 +22,7 @@
         <div class="progress-stats">
             <span id="progress-text">0 / 0 strings (0%)</span>
             <span id="char-progress">0 / 0 chars</span>
+            <button id="toggle-contributors" style="background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">👥 Contributors</button>
         </div>
         <div class="progress-bar">
             <div id="progress-approved" class="progress-segment approved" style="width: 0%"></div>
@@ -33,6 +34,9 @@
             <span class="legend-item"><span class="dot submitted"></span> Submitted</span>
             <span class="legend-item"><span class="dot draft"></span> Draft</span>
             <span class="legend-item"><span class="dot pending"></span> Pending</span>
+        </div>
+        <div id="contributors-panel" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+            <div id="contributors-list" style="display: flex; flex-wrap: wrap; gap: 1rem;"></div>
         </div>
     </div>
 

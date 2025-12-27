@@ -189,6 +189,19 @@ async function init() {
         });
     });
 
+    // Contributors panel toggle
+    document.getElementById('toggle-contributors').addEventListener('click', () => {
+        const panel = document.getElementById('contributors-panel');
+        const btn = document.getElementById('toggle-contributors');
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            btn.textContent = '👥 Hide Contributors';
+        } else {
+            panel.style.display = 'none';
+            btn.textContent = '👥 Contributors';
+        }
+    });
+
     // Initial render
     renderSections();
     renderCurrentView();
@@ -517,6 +530,12 @@ async function saveGlossaryDraft(term) {
         return;
     }
 
+    if (!translatorName.value.trim()) {
+        showToast('Please enter your name first (top right)', 'error');
+        translatorName.focus();
+        return;
+    }
+
     if (!translations.glossary) {
         translations.glossary = {};
     }
@@ -549,6 +568,12 @@ async function approveGlossary(term) {
     const input = document.getElementById(inputId);
     if (!input || !input.value.trim()) {
         showToast('Please enter a translation first', 'error');
+        return;
+    }
+
+    if (!translatorName.value.trim()) {
+        showToast('Please enter your name first (top right)', 'error');
+        translatorName.focus();
         return;
     }
 
@@ -653,6 +678,9 @@ function updateProgress() {
     let draft = 0;
     let draftChars = 0;
 
+    // Track contributions by translator
+    const contributorStats = {};
+
     for (const section of Object.values(sourceStrings.sections)) {
         for (const str of section.strings) {
             total++;
@@ -670,6 +698,18 @@ function updateProgress() {
                     draft++;
                     draftChars += str.chars;
                 }
+
+                // Track by translator
+                if (trans.translator && trans.text) {
+                    if (!contributorStats[trans.translator]) {
+                        contributorStats[trans.translator] = { strings: 0, chars: 0, approved: 0, submitted: 0, draft: 0 };
+                    }
+                    contributorStats[trans.translator].strings++;
+                    contributorStats[trans.translator].chars += str.chars;
+                    if (trans.status === 'approved') contributorStats[trans.translator].approved++;
+                    else if (trans.status === 'submitted') contributorStats[trans.translator].submitted++;
+                    else if (trans.status === 'draft') contributorStats[trans.translator].draft++;
+                }
             }
         }
     }
@@ -686,6 +726,42 @@ function updateProgress() {
     document.getElementById('progress-approved').style.width = `${approvedPct}%`;
     document.getElementById('progress-submitted').style.width = `${submittedPct}%`;
     document.getElementById('progress-draft').style.width = `${draftPct}%`;
+
+    // Update contributor stats panel
+    updateContributorStats(contributorStats, totalChars);
+}
+
+// Update contributor stats display
+function updateContributorStats(stats, totalChars) {
+    const container = document.getElementById('contributors-list');
+    const translatedChars = Object.values(stats).reduce((sum, s) => sum + s.chars, 0);
+
+    if (Object.keys(stats).length === 0) {
+        container.innerHTML = '<span style="color: var(--text-secondary); font-size: 0.85rem;">No contributions yet</span>';
+        return;
+    }
+
+    // Sort by chars contributed (descending)
+    const sorted = Object.entries(stats).sort((a, b) => b[1].chars - a[1].chars);
+
+    container.innerHTML = sorted.map(([name, data]) => {
+        const pctOfTranslated = translatedChars > 0 ? ((data.chars / translatedChars) * 100).toFixed(1) : 0;
+        const pctOfTotal = ((data.chars / totalChars) * 100).toFixed(1);
+        return `
+            <div style="background: var(--bg-card); padding: 0.5rem 0.75rem; border-radius: 6px; min-width: 150px;">
+                <div style="font-weight: bold; color: var(--text-primary);">${escapeHtml(name)}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    ${data.strings} strings · ${data.chars.toLocaleString()} chars
+                </div>
+                <div style="font-size: 0.75rem; color: var(--accent);">
+                    ${pctOfTranslated}% of work · ${pctOfTotal}% of total
+                </div>
+                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                    ✅ ${data.approved} · 📤 ${data.submitted} · 📝 ${data.draft}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Actions
@@ -710,6 +786,12 @@ async function saveDraft(id) {
     const input = document.getElementById(`input-${id}`);
     if (!input.value.trim()) {
         showToast('Please enter a translation first', 'error');
+        return;
+    }
+
+    if (!translatorName.value.trim()) {
+        showToast('Please enter your name first (top right)', 'error');
+        translatorName.focus();
         return;
     }
 
@@ -747,6 +829,12 @@ async function submitTranslation(id) {
         return;
     }
 
+    if (!translatorName.value.trim()) {
+        showToast('Please enter your name first (top right)', 'error');
+        translatorName.focus();
+        return;
+    }
+
     if (!translations[id]) {
         translations[id] = {};
     }
@@ -777,6 +865,12 @@ async function approveTranslation(id) {
     const input = document.getElementById(`input-${id}`);
     if (!input.value.trim()) {
         showToast('Please enter a translation first', 'error');
+        return;
+    }
+
+    if (!translatorName.value.trim()) {
+        showToast('Please enter your name first (top right)', 'error');
+        translatorName.focus();
         return;
     }
 
