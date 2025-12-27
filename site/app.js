@@ -170,13 +170,16 @@ async function init() {
         }
     });
 
-    translatorName.addEventListener('keypress', (e) => {
+    translatorName.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            if (translatorName.value.trim()) {
-                localStorage.setItem('translatorName', translatorName.value.trim());
+            const name = translatorName.value.trim();
+            if (name) {
+                localStorage.setItem('translatorName', name);
                 updateTranslatorDisplay();
-                showToast(`Welcome, ${translatorName.value.trim()}!`, 'success');
+                showToast(`Welcome, ${name}!`, 'success');
+            } else {
+                showToast('Please enter your name', 'error');
             }
         }
     });
