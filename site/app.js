@@ -165,13 +165,19 @@ async function init() {
 
     translatorName.addEventListener('blur', () => {
         if (translatorName.value.trim()) {
+            localStorage.setItem('translatorName', translatorName.value.trim());
             updateTranslatorDisplay();
         }
     });
 
     translatorName.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            translatorName.blur();
+            e.preventDefault();
+            if (translatorName.value.trim()) {
+                localStorage.setItem('translatorName', translatorName.value.trim());
+                updateTranslatorDisplay();
+                showToast(`Welcome, ${translatorName.value.trim()}!`, 'success');
+            }
         }
     });
 
