@@ -14,7 +14,10 @@
             <select id="language-select">
                 <!-- Options populated dynamically by app.js with status -->
             </select>
-            <span id="user-info">Translator: <input type="text" id="translator-name" placeholder="Your name"></span>
+            <div id="user-info">
+                <span id="translator-display" style="display: none; cursor: pointer;" title="Click to change name"></span>
+                <input type="text" id="translator-name" placeholder="Enter your name..." style="width: 150px;">
+            </div>
         </div>
     </header>
 

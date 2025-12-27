@@ -105,6 +105,22 @@ async function populateLanguageDropdown() {
     }
 }
 
+// Update translator name display
+function updateTranslatorDisplay() {
+    const display = document.getElementById('translator-display');
+    const input = document.getElementById('translator-name');
+    const name = input.value.trim();
+
+    if (name) {
+        display.innerHTML = `<span style="background: var(--accent); color: white; padding: 0.3rem 0.75rem; border-radius: 4px; font-size: 0.9rem;">👤 ${escapeHtml(name)}</span>`;
+        display.style.display = 'inline-block';
+        input.style.display = 'none';
+    } else {
+        display.style.display = 'none';
+        input.style.display = 'inline-block';
+    }
+}
+
 // Check user authentication and role
 async function checkAuth() {
     try {
@@ -137,10 +153,34 @@ async function init() {
     // Check authentication first
     await checkAuth();
 
-    // Load saved translator name
-    translatorName.value = localStorage.getItem('translatorName') || '';
+    // Load saved translator name and setup display
+    const savedName = localStorage.getItem('translatorName') || '';
+    translatorName.value = savedName;
+    updateTranslatorDisplay();
+
     translatorName.addEventListener('change', () => {
         localStorage.setItem('translatorName', translatorName.value);
+        updateTranslatorDisplay();
+    });
+
+    translatorName.addEventListener('blur', () => {
+        if (translatorName.value.trim()) {
+            updateTranslatorDisplay();
+        }
+    });
+
+    translatorName.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            translatorName.blur();
+        }
+    });
+
+    // Click on name display to edit
+    document.getElementById('translator-display').addEventListener('click', () => {
+        document.getElementById('translator-display').style.display = 'none';
+        translatorName.style.display = 'inline-block';
+        translatorName.focus();
+        translatorName.select();
     });
 
     // Load source strings
@@ -1016,11 +1056,6 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// Export function for downloading
-function exportTranslations() {
-    saveTranslations();
-}
-
 // Load saved translations from localStorage on init
 function loadLocalTranslations() {
     const saved = localStorage.getItem(`translations_${currentLanguage}`);
@@ -1045,12 +1080,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add export button to header
-document.addEventListener('DOMContentLoaded', () => {
-    const headerControls = document.querySelector('.header-controls');
-    const exportBtn = document.createElement('button');
-    exportBtn.textContent = '📥 Export';
-    exportBtn.style.cssText = 'background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;';
-    exportBtn.onclick = exportTranslations;
-    headerControls.appendChild(exportBtn);
-});
