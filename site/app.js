@@ -10,6 +10,10 @@ let currentSection = null;
 let currentFilter = 'all';
 let searchQuery = '';
 
+// User role
+let currentUserEmail = '';
+let isAdmin = false;
+
 // Supported languages with their display info
 const LANGUAGES = {
     'ko': { name: 'Korean', flag: '🇰🇷' },
@@ -101,8 +105,38 @@ async function populateLanguageDropdown() {
     }
 }
 
+// Check user authentication and role
+async function checkAuth() {
+    try {
+        const response = await fetch('/api/auth');
+        if (response.ok) {
+            const auth = await response.json();
+            currentUserEmail = auth.email;
+            isAdmin = auth.isAdmin;
+            console.log(`Authenticated as: ${currentUserEmail} (${auth.role})`);
+
+            // Show admin indicator if admin
+            if (isAdmin) {
+                const userInfo = document.getElementById('user-info');
+                userInfo.innerHTML = `<span style="color: var(--success); margin-right: 0.5rem;">👑 Admin</span> ` + userInfo.innerHTML;
+            } else {
+                // Hide admin-only link for non-admins
+                const adminLink = document.querySelector('.admin-link');
+                if (adminLink) adminLink.style.display = 'none';
+            }
+        }
+    } catch (e) {
+        console.log('Auth API not available (local dev mode)');
+        // In local dev, default to admin for testing
+        isAdmin = true;
+    }
+}
+
 // Initialize
 async function init() {
+    // Check authentication first
+    await checkAuth();
+
     // Load saved translator name
     translatorName.value = localStorage.getItem('translatorName') || '';
     translatorName.addEventListener('change', () => {
@@ -471,20 +505,23 @@ function renderGlossary() {
                                 <div class="source-label">Google Translate Suggestion</div>
                                 ${escapeHtml(term.aiSuggestion)}
                             </div>
-                            <button class="use-ai-btn" onclick="useGlossaryAi('${termEscaped}')">Use This</button>
+                            ${isAdmin ? `<button class="use-ai-btn" onclick="useGlossaryAi('${termEscaped}')">Use This</button>` : ''}
                         </div>
                     ` : ''}
 
                     <div class="source-label">Translation</div>
                     <textarea class="translation-input"
                               id="glossary-input-${termIdSafe}"
-                              placeholder="Enter official game translation..."
+                              placeholder="${isAdmin ? 'Enter official game translation...' : 'Only admins can edit glossary terms'}"
+                              ${!isAdmin ? 'disabled' : ''}
                               onchange="updateGlossaryDraft('${termEscaped}', this.value)">${escapeHtml(term.translation)}</textarea>
 
-                    <div class="string-actions">
-                        <button class="btn-save" onclick="saveGlossaryDraft('${termEscaped}')">Save Draft</button>
-                        <button class="btn-approve" onclick="approveGlossary('${termEscaped}')">Approve</button>
-                    </div>
+                    ${isAdmin ? `
+                        <div class="string-actions">
+                            <button class="btn-save" onclick="saveGlossaryDraft('${termEscaped}')">Save Draft</button>
+                            <button class="btn-approve" onclick="approveGlossary('${termEscaped}')">Approve</button>
+                        </div>
+                    ` : ''}
 
                     ${term.translator ? `
                         <div class="string-meta">
@@ -618,11 +655,16 @@ function renderStrings() {
         return;
     }
 
-    stringsContainer.innerHTML = strings.slice(0, 50).map(str => `
-        <div class="string-card ${str.status}" data-id="${str.id}">
+    stringsContainer.innerHTML = strings.slice(0, 50).map(str => {
+        const userCanEdit = canEdit(str.translator);
+        const lockedClass = !userCanEdit ? 'locked' : '';
+
+        return `
+        <div class="string-card ${str.status} ${lockedClass}" data-id="${str.id}">
             <div class="string-header">
                 <span class="string-id">${str.id}</span>
                 <span class="string-status ${str.status}">${getStatusLabel(str.status)}</span>
+                ${!userCanEdit ? `<span style="color: var(--text-secondary); font-size: 0.75rem;">🔒 ${escapeHtml(str.translator)}'s</span>` : ''}
             </div>
 
             <div class="source-label">English (${str.chars} chars)</div>
@@ -634,21 +676,24 @@ function renderStrings() {
                         <div class="source-label">Google Translate Suggestion</div>
                         ${escapeHtml(str.aiSuggestion)}
                     </div>
-                    <button class="use-ai-btn" onclick="useAiSuggestion('${str.id}')">Use This ➜</button>
+                    ${userCanEdit ? `<button class="use-ai-btn" onclick="useAiSuggestion('${str.id}')">Use This ➜</button>` : ''}
                 </div>
             ` : ''}
 
             <div class="source-label">Translation</div>
             <textarea class="translation-input"
                       id="input-${str.id}"
-                      placeholder="Enter translation..."
+                      placeholder="${userCanEdit ? 'Enter translation...' : 'Locked - ' + str.translator + "'s translation"}"
+                      ${!userCanEdit ? 'disabled' : ''}
                       onchange="updateDraft('${str.id}', this.value)">${escapeHtml(str.translation)}</textarea>
 
-            <div class="string-actions">
-                <button class="btn-save" onclick="saveDraft('${str.id}')">Save Draft</button>
-                <button class="btn-submit" onclick="submitTranslation('${str.id}')">Submit</button>
-                <button class="btn-approve" onclick="approveTranslation('${str.id}')">Approve ✓</button>
-            </div>
+            ${userCanEdit ? `
+                <div class="string-actions">
+                    <button class="btn-save" onclick="saveDraft('${str.id}')">Save Draft</button>
+                    <button class="btn-submit" onclick="submitTranslation('${str.id}')">Submit</button>
+                    ${isAdmin ? `<button class="btn-approve" onclick="approveTranslation('${str.id}')">Approve ✓</button>` : ''}
+                </div>
+            ` : ''}
 
             ${str.translator ? `
                 <div class="string-meta">
@@ -656,7 +701,8 @@ function renderStrings() {
                 </div>
             ` : ''}
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     if (strings.length > 50) {
         stringsContainer.innerHTML += `
@@ -762,6 +808,17 @@ function updateContributorStats(stats, totalChars) {
             </div>
         `;
     }).join('');
+}
+
+// Check if current user can edit a translation
+function canEdit(translatorName) {
+    // Admins can edit anything
+    if (isAdmin) return true;
+
+    // Users can only edit their own translations
+    const currentName = document.getElementById('translator-name').value.trim();
+    if (!translatorName) return true; // New translation, anyone can claim
+    return translatorName.toLowerCase() === currentName.toLowerCase();
 }
 
 // Actions
