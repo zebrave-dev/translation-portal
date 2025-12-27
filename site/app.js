@@ -427,7 +427,7 @@ function renderGlossary() {
         <div class="glossary-info" style="background: var(--warning-bg, #fef3cd); border: 1px solid var(--warning-border, #ffc107); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; color: var(--warning-text, #856404);">
             <strong>⚠️ Important:</strong> For glossary terms, use the <strong>exact translation shown in the game</strong>.
             Open Kingshot in your language and find how each term appears in-game (menus, tooltips, item descriptions).
-            The AI suggestion is just a starting point - the game's official translation should take priority.
+            The Google Translate suggestion is just a starting point - the game's official translation should take priority.
         </div>
     `;
 
@@ -455,10 +455,10 @@ function renderGlossary() {
                     ${term.aiSuggestion ? `
                         <div class="ai-suggestion">
                             <div class="ai-suggestion-text">
-                                <div class="source-label">AI Suggestion</div>
+                                <div class="source-label">Google Translate Suggestion</div>
                                 ${escapeHtml(term.aiSuggestion)}
                             </div>
-                            <button class="use-ai-btn" onclick="useGlossaryAi('${termEscaped}')">Use AI</button>
+                            <button class="use-ai-btn" onclick="useGlossaryAi('${termEscaped}')">Use This</button>
                         </div>
                     ` : ''}
 
@@ -606,10 +606,10 @@ function renderStrings() {
             ${str.aiSuggestion ? `
                 <div class="ai-suggestion">
                     <div class="ai-suggestion-text">
-                        <div class="source-label">AI Suggestion</div>
+                        <div class="source-label">Google Translate Suggestion</div>
                         ${escapeHtml(str.aiSuggestion)}
                     </div>
-                    <button class="use-ai-btn" onclick="useAiSuggestion('${str.id}')">Use AI ➜</button>
+                    <button class="use-ai-btn" onclick="useAiSuggestion('${str.id}')">Use This ➜</button>
                 </div>
             ` : ''}
 
