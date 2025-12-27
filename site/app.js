@@ -184,13 +184,16 @@ async function init() {
     document.getElementById('set-name-btn').addEventListener('click', submitName);
 
     function submitName() {
-        const name = translatorName.value.trim();
+        const input = document.getElementById('translator-name');
+        const name = input.value.trim();
+        console.log('submitName called, value:', name);
         if (name) {
             localStorage.setItem('translatorName', name);
             updateTranslatorDisplay();
             showToast(`Welcome, ${name}!`, 'success');
         } else {
             showToast('Please enter your name', 'error');
+            input.focus();
         }
     }
 
