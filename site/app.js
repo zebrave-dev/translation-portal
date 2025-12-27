@@ -186,7 +186,6 @@ async function init() {
     function submitName() {
         const input = document.getElementById('translator-name');
         const name = input.value.trim();
-        console.log('submitName called, value:', name);
         if (name) {
             localStorage.setItem('translatorName', name);
             updateTranslatorDisplay();
@@ -469,7 +468,9 @@ function getFilteredStrings() {
     }
 
     // Apply filter
-    if (currentFilter !== 'all') {
+    if (currentFilter === 'source_changed') {
+        allStrings = allStrings.filter(s => hasSourceChanged(s.id));
+    } else if (currentFilter !== 'all') {
         allStrings = allStrings.filter(s => s.status === currentFilter);
     }
 
@@ -738,12 +739,19 @@ function renderStrings() {
     stringsContainer.innerHTML = strings.slice(0, 50).map(str => {
         const userCanEdit = canEdit(str.translator);
         const lockedClass = !userCanEdit ? 'locked' : '';
+        const sourceChanged = hasSourceChanged(str.id);
 
         return `
-        <div class="string-card ${str.status} ${lockedClass}" data-id="${str.id}">
+        <div class="string-card ${str.status} ${lockedClass} ${sourceChanged ? 'source-changed' : ''}" data-id="${str.id}">
+            ${sourceChanged ? `
+                <div style="background: #ff6b35; color: white; padding: 0.5rem; margin: -1rem -1rem 1rem -1rem; border-radius: 8px 8px 0 0; font-size: 0.85rem;">
+                    🔄 <strong>Source Changed!</strong> The English text was updated. Please review and update translation.
+                </div>
+            ` : ''}
             <div class="string-header">
                 <span class="string-id">${str.id}</span>
                 <span class="string-status ${str.status}">${getStatusLabel(str.status)}</span>
+                ${sourceChanged ? '<span style="color: #ff6b35; font-size: 0.75rem;">🔄 Needs Update</span>' : ''}
                 ${!userCanEdit ? `<span style="color: var(--text-secondary); font-size: 0.75rem;">🔒 ${escapeHtml(str.translator)}'s</span>` : ''}
             </div>
 
@@ -803,6 +811,7 @@ function updateProgress() {
     let submittedChars = 0;
     let draft = 0;
     let draftChars = 0;
+    let sourceChanged = 0;
 
     // Track contributions by translator
     const contributorStats = {};
@@ -825,6 +834,11 @@ function updateProgress() {
                     draftChars += str.chars;
                 }
 
+                // Check for source changes
+                if (hasSourceChanged(str.id)) {
+                    sourceChanged++;
+                }
+
                 // Track by translator
                 if (trans.translator && trans.text) {
                     if (!contributorStats[trans.translator]) {
@@ -837,6 +851,17 @@ function updateProgress() {
                     else if (trans.status === 'draft') contributorStats[trans.translator].draft++;
                 }
             }
+        }
+    }
+
+    // Show source changed warning if any
+    const sourceChangedWarning = document.getElementById('source-changed-warning');
+    if (sourceChangedWarning) {
+        if (sourceChanged > 0) {
+            sourceChangedWarning.style.display = 'block';
+            sourceChangedWarning.innerHTML = `🔄 <strong>${sourceChanged}</strong> translation${sourceChanged > 1 ? 's need' : ' needs'} review - source text changed`;
+        } else {
+            sourceChangedWarning.style.display = 'none';
         }
     }
 
@@ -901,6 +926,23 @@ function canEdit(translatorName) {
     return translatorName.toLowerCase() === currentName.toLowerCase();
 }
 
+// Get source string info by ID
+function getSourceString(id) {
+    for (const section of Object.values(sourceStrings.sections)) {
+        const found = section.strings.find(s => s.id === id);
+        if (found) return found;
+    }
+    return null;
+}
+
+// Check if source text changed since translation was made
+function hasSourceChanged(id) {
+    const trans = translations[id];
+    const source = getSourceString(id);
+    if (!trans || !source || !trans.source_hash) return false;
+    return trans.source_hash !== source.hash;
+}
+
 // Actions
 function useAiSuggestion(id) {
     const trans = translations[id] || {};
@@ -936,10 +978,12 @@ async function saveDraft(id) {
         translations[id] = {};
     }
 
+    const source = getSourceString(id);
     translations[id].text = input.value;
     translations[id].status = 'draft';
     translations[id].translator = translatorName.value || 'Anonymous';
     translations[id].timestamp = new Date().toISOString();
+    if (source) translations[id].source_hash = source.hash;
 
     // Save to localStorage as backup
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
@@ -976,10 +1020,12 @@ async function submitTranslation(id) {
         translations[id] = {};
     }
 
+    const source = getSourceString(id);
     translations[id].text = input.value;
     translations[id].status = 'submitted';
     translations[id].translator = translatorName.value || 'Anonymous';
     translations[id].timestamp = new Date().toISOString();
+    if (source) translations[id].source_hash = source.hash;
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
 
@@ -1015,12 +1061,14 @@ async function approveTranslation(id) {
         translations[id] = {};
     }
 
+    const source = getSourceString(id);
     translations[id].text = input.value;
     translations[id].status = 'approved';
     translations[id].translator = translatorName.value || 'Anonymous';
     translations[id].timestamp = new Date().toISOString();
     translations[id].approved_by = translatorName.value || 'Anonymous';
     translations[id].approved_at = new Date().toISOString();
+    if (source) translations[id].source_hash = source.hash;
 
     localStorage.setItem(`translations_${currentLanguage}`, JSON.stringify(translations));
 

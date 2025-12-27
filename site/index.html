@@ -23,6 +23,7 @@
     </header>
 
     <div class="progress-bar-container">
+        <div id="source-changed-warning" style="display: none; background: #ff6b35; color: white; padding: 0.5rem 1rem; border-radius: 4px; margin-bottom: 0.75rem; cursor: pointer;" onclick="document.querySelector('[data-filter=source_changed]').click()"></div>
         <div class="progress-stats">
             <span id="progress-text">0 / 0 strings (0%)</span>
             <span id="char-progress">0 / 0 chars</span>
@@ -54,6 +55,7 @@
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="pending">🆕 Pending</button>
         <button class="filter-btn" data-filter="needs_review">⚠️ Needs Review</button>
+        <button class="filter-btn" data-filter="source_changed">🔄 Source Changed</button>
         <button class="filter-btn" data-filter="draft">📝 Drafts</button>
         <button class="filter-btn" data-filter="submitted">📤 Submitted</button>
         <button class="filter-btn" data-filter="approved">✅ Approved</button>
