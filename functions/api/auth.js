@@ -5,8 +5,8 @@
 
 // Admin emails - add your email and collaborators here
 const ADMIN_EMAILS = [
-  'zebrave@proton.me',
-  // Add collaborator emails here
+  'kingshotoptimizer@gmail.com',
+  'sgslothbiz@gmail.com',
 ];
 
 export async function onRequestGet(context) {

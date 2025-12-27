@@ -253,35 +253,52 @@ function renderCurrentView() {
 
 // Load translations for a language
 async function loadTranslations(lang) {
-    try {
-        // Try API first (KV storage)
-        const apiResponse = await fetch(`/api/translations/${lang}`);
-        if (apiResponse.ok) {
-            const apiData = await apiResponse.json();
-            if (apiData && Object.keys(apiData).length > 1) { // More than just _meta
-                translations = apiData;
-                console.log(`Loaded ${Object.keys(translations).length} translations for ${lang} from API`);
-                return;
-            }
-        }
-    } catch (e) {
-        console.log(`API not available, falling back to static files`);
-    }
-
-    // Fallback to static files
+    // Always load static file first (has ai_suggestions from Google Translate)
+    let staticTranslations = {};
     try {
         const response = await fetch(`/data/translations/${lang}.json`);
         if (response.ok) {
-            translations = await response.json();
-            console.log(`Loaded ${Object.keys(translations).length} translations for ${lang} from static file`);
-        } else {
-            translations = {};
-            console.log(`No translations found for ${lang}`);
+            staticTranslations = await response.json();
+            console.log(`Loaded ${Object.keys(staticTranslations).length} translations for ${lang} from static file`);
         }
     } catch (e) {
-        translations = {};
-        console.log(`No translations file for ${lang}`);
+        console.log(`No static translations file for ${lang}`);
     }
+
+    // Try to load from API (KV storage) - user edits are stored here
+    let apiTranslations = {};
+    try {
+        const apiResponse = await fetch(`/api/translations/${lang}`);
+        if (apiResponse.ok) {
+            const apiData = await apiResponse.json();
+            // Check if API has actual translations (more than just _meta and empty structures)
+            const hasRealData = Object.keys(apiData).some(key =>
+                key !== '_meta' && key !== 'glossary' && key !== 'strings' &&
+                apiData[key] && apiData[key].text
+            );
+            if (hasRealData) {
+                apiTranslations = apiData;
+                console.log(`Loaded translations for ${lang} from API`);
+            }
+        }
+    } catch (e) {
+        console.log(`API not available for ${lang}`);
+    }
+
+    // Merge: static (ai_suggestions) + API (user edits) - API takes precedence
+    translations = { ...staticTranslations };
+    for (const [key, value] of Object.entries(apiTranslations)) {
+        if (key === '_meta') continue;
+        if (value && value.text) {
+            // Merge user edits with ai_suggestion from static
+            translations[key] = {
+                ...staticTranslations[key],  // Keep ai_suggestion
+                ...value                      // Override with user's text/status
+            };
+        }
+    }
+
+    console.log(`Final translations for ${lang}: ${Object.keys(translations).length} keys`);
 }
 
 // Save translations to server
